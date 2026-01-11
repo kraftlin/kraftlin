@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":kraftlin-command-core"))
+    api(project(":kraftlin-config-core"))
     compileOnly(libs.paper.api)
 
     testImplementation(kotlin("test"))
