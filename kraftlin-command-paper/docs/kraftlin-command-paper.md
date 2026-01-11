@@ -1,4 +1,4 @@
-# Module kbrigx-paper
+# Module kraftlin-command-paper
 
 Paper-specific Brigadier DSL extensions and argument helpers.
 
