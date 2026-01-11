@@ -3,9 +3,9 @@ package io.github.kraftlin.command.paper.arguments
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import io.github.kraftlin.command.KContext
-import io.github.kraftlin.command.paper.PaperCommand
 import io.github.kraftlin.command.paper.PaperSource
 import io.github.kraftlin.command.paper.executes
+import io.github.kraftlin.command.paper.kraftlinCommand
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
@@ -32,7 +32,7 @@ class ChoiceTest {
 
     @Test
     fun `test choice DSL`() {
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             choice("myChoice", listOf("a", "b")) {
                 executes { _, _ -> }
             }
@@ -60,7 +60,7 @@ class ChoiceTest {
 
     @Test
     fun `test enum DSL`() {
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             enum<TestEnum>("myEnum") {
                 executes { _, _ -> }
             }

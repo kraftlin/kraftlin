@@ -59,14 +59,14 @@ class PaperCoreTest {
         every { sender.hasPermission("test.perm") } returns true
         every { sender.hasPermission("fail.perm") } returns false
 
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             requiresPermission("test.perm")
             executes { }
         }.createBuilder().build()
 
         assertEquals(true, node.requirement.test(source))
 
-        val failNode = PaperCommand.command("fail") {
+        val failNode = kraftlinCommand("fail") {
             requiresPermission("fail.perm")
             executes { }
         }.createBuilder().build()
@@ -85,7 +85,7 @@ class PaperCoreTest {
         val senderSource = mockk<PaperSource>()
         every { senderSource.sender } returns sender
 
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             requiresPlayer()
             executes { }
         }.createBuilder().build()
@@ -100,7 +100,7 @@ class PaperCoreTest {
         val source = mockk<PaperSource>()
         every { source.sender } returns sender
 
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             requiresSender { it == sender }
             executes { }
         }.createBuilder().build()
@@ -114,7 +114,7 @@ class PaperCoreTest {
 
     @Test
     fun `test paper command entry point`() {
-        val node = PaperCommand.command("test") {
+        val node = kraftlinCommand("test") {
             executes { }
         }
         assertEquals("test", node.literal)

@@ -11,16 +11,14 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import com.mojang.brigadier.tree.LiteralCommandNode
 import java.util.concurrent.CompletableFuture
 
-public object KraftlinCommand {
-    public fun <S> command(
-        name: String,
-        block: LiteralNode<S>.() -> Unit,
-    ): LiteralCommandNode<S> {
-        val root: LiteralArgumentBuilder<S> = LiteralArgumentBuilder.literal(name)
-        val node = LiteralNode<S>(root)
-        node.block()
-        return root.build()
-    }
+public fun <S> brigadierCommand(
+    name: String,
+    block: LiteralNode<S>.() -> Unit,
+): LiteralCommandNode<S> {
+    val root: LiteralArgumentBuilder<S> = LiteralArgumentBuilder.literal(name)
+    val node = LiteralNode<S>(root)
+    node.block()
+    return root.build()
 }
 
 @CommandDsl

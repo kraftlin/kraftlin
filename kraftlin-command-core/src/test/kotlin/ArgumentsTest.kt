@@ -16,7 +16,7 @@ class ArgumentsTest {
     fun `test word argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: String? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             word("arg") {
                 executes { ctx ->
                     result = ctx.word("arg")
@@ -33,7 +33,7 @@ class ArgumentsTest {
     fun `test string argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: String? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             string("arg") {
                 executes { ctx ->
                     result = ctx.string("arg")
@@ -50,7 +50,7 @@ class ArgumentsTest {
     fun `test greedyString argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: String? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             greedyString("arg") {
                 executes { ctx ->
                     result = ctx.greedyString("arg")
@@ -67,7 +67,7 @@ class ArgumentsTest {
     fun `test integer argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Int? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("arg") {
                 executes { ctx ->
                     result = ctx.integer("arg")
@@ -84,7 +84,7 @@ class ArgumentsTest {
     fun `test integer argument with min`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Int? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("arg", 10) {
                 executes { ctx ->
                     result = ctx.integer("arg")
@@ -101,7 +101,7 @@ class ArgumentsTest {
     fun `test integer argument with min and max`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Int? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("arg", 10, 20) {
                 executes { ctx ->
                     result = ctx.integer("arg")
@@ -118,7 +118,7 @@ class ArgumentsTest {
     fun `test boolean argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Boolean? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             boolean("arg") {
                 executes { ctx ->
                     result = ctx.boolean("arg")
@@ -135,7 +135,7 @@ class ArgumentsTest {
     fun `test double argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Double? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             double("arg") {
                 executes { ctx ->
                     result = ctx.double("arg")
@@ -152,7 +152,7 @@ class ArgumentsTest {
     fun `test double argument with min`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Double? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             double("arg", 10.0) {
                 executes { ctx ->
                     result = ctx.double("arg")
@@ -169,7 +169,7 @@ class ArgumentsTest {
     fun `test double argument with min and max`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Double? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             double("arg", 10.0, 20.0) {
                 executes { ctx ->
                     result = ctx.double("arg")
@@ -186,7 +186,7 @@ class ArgumentsTest {
     fun `test long argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Long? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             long("arg") {
                 executes { ctx ->
                     result = ctx.long("arg")
@@ -203,7 +203,7 @@ class ArgumentsTest {
     fun `test long argument with min`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Long? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             long("arg", 10L) {
                 executes { ctx ->
                     result = ctx.long("arg")
@@ -220,7 +220,7 @@ class ArgumentsTest {
     fun `test long argument with min and max`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Long? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             long("arg", 10L, 20L) {
                 executes { ctx ->
                     result = ctx.long("arg")
@@ -237,7 +237,7 @@ class ArgumentsTest {
     fun `test float argument`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Float? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             float("arg") {
                 executes { ctx ->
                     result = ctx.float("arg")
@@ -254,7 +254,7 @@ class ArgumentsTest {
     fun `test float argument with min`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Float? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             float("arg", 10.0f) {
                 executes { ctx ->
                     result = ctx.float("arg")
@@ -271,7 +271,7 @@ class ArgumentsTest {
     fun `test float argument with min and max`() {
         val dispatcher = CommandDispatcher<Any>()
         var result: Float? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             float("arg", 10.0f, 20.0f) {
                 executes { ctx ->
                     result = ctx.float("arg")
@@ -289,7 +289,7 @@ class ArgumentsTest {
         val dispatcher = CommandDispatcher<Any>()
         var intResult: Int? = null
         var stringResult: String? = null
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("int") {
                 word("string") {
                     executes { ctx ->
@@ -309,7 +309,7 @@ class ArgumentsTest {
     @Test
     fun `test integer argument out of range`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("arg", 10, 20) {
                 executes { }
             }
@@ -327,7 +327,7 @@ class ArgumentsTest {
     @Test
     fun `test integer argument wrong type`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             integer("arg") {
                 executes { }
             }
@@ -342,7 +342,7 @@ class ArgumentsTest {
     @Test
     fun `test long argument out of range`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             long("arg", 10L, 20L) {
                 executes { }
             }
@@ -360,7 +360,7 @@ class ArgumentsTest {
     @Test
     fun `test double argument out of range`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             double("arg", 10.0, 20.0) {
                 executes { }
             }
@@ -378,7 +378,7 @@ class ArgumentsTest {
     @Test
     fun `test float argument out of range`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             float("arg", 10.0f, 20.0f) {
                 executes { }
             }
@@ -396,7 +396,7 @@ class ArgumentsTest {
     @Test
     fun `test boolean argument wrong type`() {
         val dispatcher = CommandDispatcher<Any>()
-        val cmd = KraftlinCommand.command<Any>("test") {
+        val cmd = brigadierCommand<Any>("test") {
             boolean("arg") {
                 executes { }
             }

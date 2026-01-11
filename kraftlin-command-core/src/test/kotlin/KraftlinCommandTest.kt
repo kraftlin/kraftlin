@@ -12,7 +12,7 @@ class KraftlinCommandTest {
     fun `builds nested literals and executes`() {
         val dispatcher = CommandDispatcher<Any>()
         var executed = false
-        val root = KraftlinCommand.command<Any>("root") {
+        val root = brigadierCommand<Any>("root") {
             literal("sub") {
                 executes {
                     executed = true
@@ -28,7 +28,7 @@ class KraftlinCommandTest {
     @Test
     fun `test executesResult`() {
         val dispatcher = CommandDispatcher<Any>()
-        val root = KraftlinCommand.command<Any>("test") {
+        val root = brigadierCommand<Any>("test") {
             executesResult { 42 }
         }
         dispatcher.root.addChild(root)
@@ -40,7 +40,7 @@ class KraftlinCommandTest {
     @Test
     fun `test suggestsStatic`() {
         val dispatcher = CommandDispatcher<Any>()
-        val root = KraftlinCommand.command<Any>("test") {
+        val root = brigadierCommand<Any>("test") {
             argument("arg", StringArgumentType.word()) {
                 suggestsStatic("a", "b", "c")
             }
@@ -56,7 +56,7 @@ class KraftlinCommandTest {
     @Test
     fun `test suggests`() {
         val dispatcher = CommandDispatcher<Any>()
-        val root = KraftlinCommand.command<Any>("test") {
+        val root = brigadierCommand<Any>("test") {
             argument("arg", StringArgumentType.word()) {
                 suggests { _, builder ->
                     builder.suggest("dynamic")
@@ -74,7 +74,7 @@ class KraftlinCommandTest {
 
     @Test
     fun `requirements are combined`() {
-        val root = KraftlinCommand.command<Int>("cmd") {
+        val root = brigadierCommand<Int>("cmd") {
             requires { it > 0 }
             requires { it % 2 == 0 }
             executes { }
