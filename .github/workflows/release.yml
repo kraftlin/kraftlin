@@ -48,13 +48,20 @@ jobs:
           files: |
             **/build/libs/*.jar
 
-      - name: Publish to Sonatype (snapshots on main, releases on tags)
-        if: |
-          startsWith(github.ref, 'refs/tags/v') ||
-          (github.ref == 'refs/heads/main' && endsWith(steps.version.outputs.version, '-SNAPSHOT'))
+      - name: Publish Snapshots
+        if: github.ref == 'refs/heads/main' && endsWith(steps.version.outputs.version, '-SNAPSHOT')
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
         run: ./gradlew publishToMavenCentral --no-daemon
+
+      - name: Publish & Release to Maven Central
+        if: startsWith(github.ref, 'refs/tags/v') && !contains(steps.version.outputs.version, 'SNAPSHOT')
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+        run: ./gradlew publishAndReleaseToMavenCentral --no-daemon
