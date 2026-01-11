@@ -110,3 +110,14 @@ subprojects {
         }
     }
 }
+
+val semverStrict = Regex("^\\d+\\.\\d+\\.\\d+$")
+
+tasks.matching { it.name == "publishAndReleaseToMavenCentral" }.configureEach {
+    doFirst {
+        val v = project.version.toString()
+        require(semverStrict.matches(v)) {
+            "Refusing to publish a release with a non-semver version: version=$v (expected X.Y.Z)"
+        }
+    }
+}
