@@ -9,7 +9,7 @@ for common Paper and Minecraft concepts.
 
 ## Core Types
 
-- [io.github.kraftlin.command.paper.PaperKBrigx]: Paper-specific entry point for commands.
+- [io.github.kraftlin.command.paper.kraftlinCommand]: Paper-specific entry point for commands.
 - [io.github.kraftlin.command.paper.PaperLiteralNode]: Type alias for [io.github.kraftlin.command.LiteralNode] using Paper's
   `CommandSourceStack`.
 - [io.github.kraftlin.command.paper.PaperArgumentNode]: Type alias for [io.github.kraftlin.command.ArgumentNode] using Paper's
@@ -23,7 +23,7 @@ Paper integration layer for the core DSL.
 
 This package provides:
 
-- Registration helpers like [io.github.kraftlin.command.paper.registerBrigxCommands] for Paper commands.
+- Registration helpers like [io.github.kraftlin.command.paper.registerKraftlinCommands] for Paper commands.
 - Extensions for [io.github.kraftlin.command.paper.PaperLiteralNode] such as [io.github.kraftlin.command.paper.executesPlayer]
   and [io.github.kraftlin.command.paper.requiresPermission].
 - Access to the underlying Paper `CommandSourceStack` via [io.github.kraftlin.command.paper.PaperSource].

@@ -7,7 +7,7 @@ It contains no Minecraft or Paper dependencies and can be used in any Brigadier-
 
 ## Key Primitives
 
-- [io.github.kraftlin.command.KBrigx]: Entry point for creating commands.
+- [io.github.kraftlin.command.brigadierCommand]: Entry point for creating commands.
 - [io.github.kraftlin.command.LiteralNode]: Base for literal command nodes.
 - [io.github.kraftlin.command.ArgumentNode]: Base for required argument nodes.
 - [io.github.kraftlin.command.KContext]: Wrapper around Brigadier's `CommandContext`.
@@ -18,7 +18,7 @@ Core DSL primitives and node builders used to construct command trees.
 
 This package contains:
 
-- Entry points like [io.github.kraftlin.command.KBrigx.command] for creating command trees.
+- Entry points like [io.github.kraftlin.command.brigadierCommand] for creating command trees.
 - Node builders like [io.github.kraftlin.command.literal] and [io.github.kraftlin.command.argument].
 - [io.github.kraftlin.command.KContext] for idiomatic argument retrieval.
 - Execution builders like [io.github.kraftlin.command.executes] and [io.github.kraftlin.command.executesResult].
