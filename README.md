@@ -11,7 +11,6 @@ Adventure.
 Kraftlin provides small, composable modules for common plugin concerns like commands, configuration, and messages,
 designed to be expressive, explicit, and easy to reason about.
 
----
 
 ## ✨ Why Kraftlin?
 
@@ -27,7 +26,6 @@ Kraftlin gives you:
 
 The goal is not to replace existing systems but to make them nicer to use from Kotlin.
 
----
 
 ## 📦 Modules
 
@@ -56,7 +54,6 @@ Kraftlin is a collection of independent modules that can be used individually or
 
 Each module is published independently and can be used on its own.
 
----
 
 ## 🎯 Design goals
 
@@ -66,7 +63,6 @@ Each module is published independently and can be used on its own.
 - Minimal abstraction overhead
 - Easy debugging and integration with existing tools
 
----
 
 ## ⚙ Requirements
 
@@ -75,7 +71,6 @@ Each module is published independently and can be used on its own.
 - Paper 1.21+ (for Paper modules)
 - Adventure (for message module)
 
----
 
 ## 📥 Installation
 
@@ -91,7 +86,6 @@ dependencies {
 
 Replace the artifact ID depending on the module you need.
 
----
 
 ## 🔢 Versioning & Stability
 
@@ -104,7 +98,6 @@ After 1.0.0, only major versions will contain breaking changes.
 Kraftlin is the integration of multiple internal libraries that have been developed over years from practical needs.
 It is actively used in production on our own server across multiple plugins.
 
----
 
 ## 🚀 Usage
 
@@ -116,7 +109,6 @@ Usage examples and guides are provided per module:
 
 Each module has its own README with examples and API details.
 
----
 
 ## 🧠 Philosophy
 
@@ -131,14 +123,12 @@ It provides:
 Under the hood, Kraftlin builds on standard Brigadier, Adventure, and platform APIs.  
 There is no reflection, code generation, or runtime proxying — just thin wrappers and structured builders.
 
----
 
 ## 🤝 Contributing
 
 Contributions and ideas are welcome and appreciated!
 Open an issue or submit a pull request if you have feedback or suggestions.
 
----
 
 ## 📄 License
 
