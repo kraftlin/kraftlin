@@ -37,10 +37,12 @@ for example:
 
 - [io.github.kraftlin.command.paper.arguments.entity] and [io.github.kraftlin.command.paper.arguments.player] for selectors.
 - [io.github.kraftlin.command.paper.arguments.blockPosition] and [io.github.kraftlin.command.paper.arguments.finePosition] for coordinates.
+- [io.github.kraftlin.command.paper.arguments.rotation] and [io.github.kraftlin.command.paper.arguments.angle] for orientation.
 - [io.github.kraftlin.command.paper.arguments.component] and [io.github.kraftlin.command.paper.arguments.signedMessage] for Adventure chat
   types.
 - [io.github.kraftlin.command.paper.arguments.choice] and [io.github.kraftlin.command.paper.arguments.enum] for custom string-based
   selections.
+- [io.github.kraftlin.command.paper.arguments.playerProfiles] and [io.github.kraftlin.command.paper.arguments.uuid] for identity.
 
 Each builder has a matching accessor on [io.github.kraftlin.command.paper.PaperContext] to retrieve the parsed values.
 
