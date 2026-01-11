@@ -1,25 +1,37 @@
-package de.devsylum.kconfig.bungee
+package de.devsylum.kconfig.bukkit
 
+import com.google.common.base.Charsets
 import de.devsylum.kconfig.AbstractConfig
+import io.mockk.every
+import io.mockk.mockk
+import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.plugin.Plugin
 import org.intellij.lang.annotations.Language
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import org.junit.jupiter.api.io.TempDir
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
 import java.nio.file.Files
+import java.nio.file.Path
+import java.util.logging.Level
+import java.util.logging.Logger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class BungeeFileConfigurationTest {
+internal class PluginConfigurationTest {
 
-    @get:Rule
-    val directory = TemporaryFolder()
+    @TempDir
+    lateinit var directory: Path
 
     @Test
     fun `integration test for arbitrary config files`() {
 
-        val configFile = directory.newFile("config.yml").toPath()
+        val configFile = directory.resolve("arbitrary-file.yml")
+        val plugin = mockPlugin(configFile.toFile())
 
-        // Declare config with default values using config with custom path
-        val config = object : AbstractConfig(wrapConfig(configFile)) {
+        // Declare config with default values using default plugin config
+        val config = object : AbstractConfig(wrapConfig(plugin)) {
 
             var setting1: String by config("setting1", "Value 1")
 
@@ -60,19 +72,19 @@ internal class BungeeFileConfigurationTest {
         val actual = Files.newBufferedReader(configFile).use {
             it.readText()
         }
-        assertEquals(expected.split('\n').toSet(), actual.split('\n').toSet())
+        assertEquals(expected, actual)
 
         // Edit config file
         @Language("yaml")
         val editedConfig =
             """
             |setting1: new Value
-            |config:
-            |  setting2: 11
             |setting3: []
             |setting4:
             |  new: value
             |  number: 1.1
+            |config:
+            |  setting2: 11
             |""".trimMargin()
 
         Files.newBufferedWriter(configFile).use {
@@ -98,14 +110,14 @@ internal class BungeeFileConfigurationTest {
         val expected2 =
             """
             |setting1: Third Value
-            |config:
-            |  setting2: 11
             |setting3:
             |- false
             |- false
             |setting4:
             |  new: value
             |  number: 1.1
+            |config:
+            |  setting2: 11
             |""".trimMargin()
 
         val actual2 = Files.newBufferedReader(configFile).use {
@@ -113,46 +125,45 @@ internal class BungeeFileConfigurationTest {
         }
         assertEquals(expected2, actual2)
     }
+}
 
-    @Test
-    fun `defaults do not override customized values`() {
+private fun mockPlugin(configFile: File): Plugin {
 
-        val configFile = directory.newFile().toPath()
+    var newConfig: FileConfiguration? = null
 
-        @Language("yaml")
-        val editedConfig =
-            """
-            |setting1: new Value
-            |config:
-            |  setting2: 10000
-            |""".trimMargin()
+    // mocked methods behave like those of the JavaPlugin implementation
+    return mockk<Plugin>().apply {
 
-        Files.newBufferedWriter(configFile).use { it.write(editedConfig) }
-
-        val config = object : AbstractConfig(wrapConfig(configFile)) {
-
-            val setting1: String by config("setting1", "default Value")
-
-            val setting2: Int by config("config.setting2", 10)
+        every { config } answers {
+            if (newConfig == null) {
+                reloadConfig()
+            }
+            newConfig!!
         }
 
-        config.saveDefaults()
-        config.reloadConfig()
-
-        assertEquals(config.setting1, "new Value")
-        assertEquals(config.setting2, 10000)
-    }
-
-    @Test
-    fun `load config from non exiting path`() {
-        val configFile = directory.root.toPath().resolve("parent/not-existing-file.yml")
-
-        // Declare config with default values using config with custom path
-        val config = object : AbstractConfig(wrapConfig(configFile)) {
-            val setting: String by config("setting", "value")
+        every { reloadConfig() } answers {
+            newConfig = YamlConfiguration.loadConfiguration(configFile)
+            val defConfigStream = getResource("config.yml")
+            if (defConfigStream != null) {
+                newConfig.setDefaults(
+                    YamlConfiguration.loadConfiguration(
+                        InputStreamReader(
+                            defConfigStream,
+                            Charsets.UTF_8
+                        )
+                    )
+                )
+            }
         }
 
-        assertEquals("value", config.setting)
-        config.saveDefaults()
+        every { getResource(any()) } returns null
+
+        every { saveConfig() } answers {
+            try {
+                config.save(configFile)
+            } catch (ex: IOException) {
+                Logger.getAnonymousLogger().log(Level.SEVERE, "Could not save config to $configFile", ex)
+            }
+        }
     }
 }

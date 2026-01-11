@@ -2,21 +2,21 @@ package de.devsylum.kconfig.bukkit
 
 import de.devsylum.kconfig.AbstractConfig
 import org.intellij.lang.annotations.Language
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
+import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class BukkitFileConfigurationTest {
 
-    @get:Rule
-    val directory = TemporaryFolder()
+    @TempDir
+    lateinit var directory: Path
 
     @Test
     fun `integration test for arbitrary config files`() {
 
-        val configFile = directory.newFile("config.yml").toPath()
+        val configFile = directory.resolve("config.yml")
 
         // Declare config with default values using config with custom path
         val config = object : AbstractConfig(wrapConfig(configFile)) {

@@ -1,20 +1,20 @@
 package de.devsylum.kconfig
 
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
+import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 internal class DatabaseConfigTest {
 
-    @get:Rule
-    val testDirectory = TemporaryFolder()
+    @TempDir
+    lateinit var testDirectory: Path
 
     @Test
     fun `load properties from file`() {
-        val dbConfig = testDirectory.newFile("database.properties").toPath()
+        val dbConfig = testDirectory.resolve("database.properties")
         Files.newBufferedWriter(dbConfig, Charsets.UTF_8).use { writer ->
             writer.write("url=jdbc:mysql://devsylum.de:3306/database")
             writer.newLine()
@@ -26,14 +26,14 @@ internal class DatabaseConfigTest {
         }
 
         val expected = SqlConfiguration("jdbc:mysql://devsylum.de:3306/database", "testuser", "testpassword")
-        val actual = loadSqlConfiguration(testDirectory.root.toPath())
+        val actual = loadSqlConfiguration(testDirectory)
         assertEquals(expected, actual)
     }
 
     @Test
     fun `store and load default configuration`() {
         val expected = SqlConfiguration("jdbc:mysql://localhost:3306/dbname", "exampleuser", "examplepassword")
-        val actual = loadSqlConfiguration(testDirectory.root.toPath())
+        val actual = loadSqlConfiguration(testDirectory)
         assertEquals(expected, actual)
     }
 
