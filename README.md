@@ -38,14 +38,14 @@ Kraftlin is a collection of independent modules that can be used individually or
 | `kraftlin-command-core`  | Kotlin DSL over Mojang Brigadier (no Minecraft or Paper dependencies) |
 | `kraftlin-command-paper` | Paper integration: typed argument builders and context access         |
 
-### Config (coming soon)
+### Config
 
 | Module                  | Description                                       |
 |-------------------------|---------------------------------------------------|
 | `kraftlin-config-core`  | Type-safe Kotlin DSL for structured configuration |
 | `kraftlin-config-paper` | Paper-specific config loading helpers             |
 
-### Message (coming soon)
+### Message
 
 | Module                   | Description                                  |
 |--------------------------|----------------------------------------------|
