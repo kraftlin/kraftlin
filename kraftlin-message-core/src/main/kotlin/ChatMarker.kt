@@ -1,4 +1,4 @@
-package me.minoneer.minecraft.message
+package io.github.kraftlin.message
 
 @DslMarker
 @Target(AnnotationTarget.CLASS)

@@ -1,4 +1,4 @@
-package me.minoneer.minecraft.message
+package io.github.kraftlin.message
 
 import net.kyori.adventure.text.TextComponent
 
