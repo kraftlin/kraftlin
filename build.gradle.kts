@@ -67,6 +67,10 @@ subprojects {
                 when (project.name) {
                     "kraftlin-command-core" -> "Kotlin DSL wrapper for Mojang Brigadier."
                     "kraftlin-command-paper" -> "Paper integration for Kraftlin commands."
+                    "kraftlin-config-core" -> "Type-safe Kotlin delegates for structured configuration."
+                    "kraftlin-config-paper" -> "Paper-specific config implementation."
+                    "kraftlin-message-core" -> "Kotlin DSL for building Adventure components."
+                    "kraftlin-message-paper" -> "Paper-specific message helpers."
                     else -> "Kraftlin module: ${project.name}"
                 }
             )
