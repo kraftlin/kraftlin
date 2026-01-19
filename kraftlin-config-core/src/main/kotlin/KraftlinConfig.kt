@@ -1,6 +1,6 @@
 package io.github.kraftlin.config
 
-import java.util.UUID
+import java.util.*
 import kotlin.reflect.KProperty
 
 /**
@@ -217,20 +217,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configBooleanList(path: String, default: List<Boolean>): ConfigDelegate<List<Boolean>> =
-        config(path, default)
-
-    /**
-     * Config delegate for [List] of [Boolean] values.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
     @JvmName("configListBoolean")
     protected fun config(
         path: String,
@@ -245,19 +231,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
             comments.toList()
         )
     }
-
-    /**
-     * Config delegate for [List] of [Int] values.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configIntList(path: String, default: List<Int>): ConfigDelegate<List<Int>> = config(path, default)
 
     /**
      * Config delegate for [List] of [Int] values.
@@ -286,19 +259,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configLongList(path: String, default: List<Long>): ConfigDelegate<List<Long>> = config(path, default)
-
-    /**
-     * Config delegate for [List] of [Long] values.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
     @JvmName("configListLong")
     protected fun config(
         path: String,
@@ -320,20 +280,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configDoubleList(path: String, default: List<Double>): ConfigDelegate<List<Double>> =
-        config(path, default)
-
-    /**
-     * Config delegate for [List] of [Double] values.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
     @JvmName("configListDouble")
     protected fun config(
         path: String,
@@ -348,20 +294,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
             comments.toList()
         )
     }
-
-    /**
-     * Config delegate for [List] of [String] values.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configStringList(path: String, default: List<String>): ConfigDelegate<List<String>> =
-        config(path, default)
 
     /**
      * Config delegate for [List] of [String] values.
@@ -400,20 +332,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config<T>(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected inline fun <reified T : Enum<T>> configEnumList(path: String, default: List<T>): ConfigDelegate<List<T>> =
-        config(path, default)
-
-    /**
-     * Config delegate for [List] of [Enum] values. The value is stored and retrieved by its lower cased [Enum.name].
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
     @JvmName("configListEnum")
     protected inline fun <reified T : Enum<T>> config(
         path: String,
@@ -428,24 +346,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      */
-    @Deprecated(
-        "Use config(path, default) instead",
-        ReplaceWith("config(path, default)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun configUuidList(
-        path: String,
-        default: List<UUID>,
-        vararg comments: String
-    ): ConfigDelegate<List<UUID>> =
-        config(path, default, *comments)
-
-    /**
-     * Config delegate for [List] of [UUID] values. The UUID is stored and retrieved by its string representation [UUID.toString].
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     */
     @JvmName("configListUuid")
     protected fun config(
         path: String,
@@ -453,30 +353,6 @@ public abstract class AbstractConfig protected constructor(protected val configW
         vararg comments: String
     ): ConfigDelegate<List<UUID>> =
         this.config(path, default, UUID::toString, UUID::fromString, *comments)
-
-
-    /**
-     * Config delegate for [List] of arbitrary values. They are stored as string lists and retrieved by the provided
-     * [serialize] and [deserialize] functions respectively.
-     *
-     * @param path A dot separated path for the config value
-     * @param default The default value for this config entry
-     * @param serialize A function to serialize the custom type to a string
-     * @param deserialize A function to deserialize a custom type from string
-     */
-    @Deprecated(
-        "Use config(path, default, serialize, deserialize) instead",
-        ReplaceWith("config<T>(path, default, serialize, deserialize)"),
-        DeprecationLevel.WARNING
-    )
-    protected fun <T> configList(
-        path: String,
-        default: List<T>,
-        serialize: (T) -> String,
-        deserialize: (String) -> T,
-        vararg comments: String
-    ): ConfigDelegate<List<T>> = config(path, default, serialize, deserialize, *comments)
-
 
     /**
      * Config delegate for [List] of arbitrary values. They are stored as string lists and retrieved by the provided
