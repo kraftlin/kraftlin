@@ -56,6 +56,20 @@ public class Message private constructor(
         text(fromLegacyMessage(legacyText), init)
 
     /**
+     * Adds a newline to the message content.
+     */
+    public fun newLine() {
+        textElements.add(Text(Component.newline()))
+    }
+
+    /**
+     * Adds a space to the message content.
+     */
+    public fun space() {
+        textElements.add(Text(Component.space()))
+    }
+
+    /**
      * Converts the message to a [Component] to use with the Chat API.
      *
      * @return The message encoded as the Chat APIs message component.
