@@ -1,5 +1,6 @@
 package io.github.kraftlin.message
 
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 
@@ -47,11 +48,11 @@ public class ClickableMessage private constructor(
     /**
      * Adds a new text component to the message.
      *
-     * @param text The component's text to display.
+     * @param component The component to display.
      * @param init Function to apply formatting in a declarative style.
      */
-    public fun text(text: TextComponent, init: ClickableText.() -> Unit = {}) {
-        val textComponent = ClickableText(text)
+    public fun text(component: Component, init: ClickableText.() -> Unit = {}) {
+        val textComponent = ClickableText(component)
         textComponent.init()
         textElements.add(textComponent)
     }
@@ -72,7 +73,8 @@ public class ClickableMessage private constructor(
      * @return The message encoded as the Chat APIs message component.
      */
     public fun toChatMessage(): TextComponent {
-        val result = baseElement.textComponent
-        return result.children(textElements.map(Text::textComponent))
+        val result = baseElement.builder as TextComponent.Builder
+        textElements.forEach { result.append(it.builder) }
+        return result.build()
     }
 }
