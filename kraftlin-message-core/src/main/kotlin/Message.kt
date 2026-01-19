@@ -1,6 +1,6 @@
 package io.github.kraftlin.message
 
-import net.kyori.adventure.text.TextComponent
+import net.kyori.adventure.text.Component
 
 /**
  * A basic formatted Chat Message.
@@ -36,11 +36,11 @@ public class Message private constructor(
     /**
      * Adds a new text component to the message.
      *
-     * @param text The component's text to display.
+     * @param component The component to display.
      * @param init Function to apply formatting in a declarative style.
      */
-    public fun text(text: TextComponent, init: Text.() -> Unit = {}) {
-        val textComponent = Text(text)
+    public fun text(component: Component, init: Text.() -> Unit = {}) {
+        val textComponent = Text(component)
         textComponent.init()
         textElements.add(textComponent)
     }
@@ -56,12 +56,13 @@ public class Message private constructor(
         text(fromLegacyMessage(legacyText), init)
 
     /**
-     * Converts the message to a [TextComponent] to use with the Chat API.
+     * Converts the message to a [Component] to use with the Chat API.
      *
      * @return The message encoded as the Chat APIs message component.
      */
-    public fun toChatMessage(): TextComponent {
-        val result = baseElement.textComponent
-        return result.children(textElements.map(Text::textComponent))
+    public fun toChatMessage(): Component {
+        val result = baseElement.builder
+        textElements.forEach { result.append(it.builder) }
+        return result.build()
     }
 }

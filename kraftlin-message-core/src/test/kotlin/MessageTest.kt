@@ -136,6 +136,47 @@ class MessageTest {
     }
 
     @Test
+    fun `translatable component message`() {
+        val translatable = net.kyori.adventure.text.Component.translatable("chat.type.text")
+        val message = message(translatable) {
+            color(RED)
+        }
+
+        @Language("JSON") val expected = """
+        {
+            "translate": "chat.type.text",
+            "color": "red"
+        }
+        """
+
+        assertEquals(expected, GsonComponentSerializer.gson().serialize(message), JSONCompareMode.STRICT)
+    }
+
+    @Test
+    fun `nested translatable component`() {
+        val translatable = net.kyori.adventure.text.Component.translatable("chat.type.text")
+        val message = message {
+            text(translatable) {
+                bold()
+            }
+        }
+
+        @Language("JSON") val expected = """
+        {
+            "extra": [
+                {
+                    "bold": true,
+                    "translate": "chat.type.text"
+                }
+            ],
+            "text": ""
+        }
+        """
+
+        assertEquals(expected, GsonComponentSerializer.gson().serialize(message), JSONCompareMode.STRICT)
+    }
+
+    @Test
     fun `run command action`() {
         val message = message {
             text("Foo") {
