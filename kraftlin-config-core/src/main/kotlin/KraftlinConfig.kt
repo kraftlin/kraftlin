@@ -51,6 +51,23 @@ public abstract class AbstractConfig protected constructor(protected val configW
     }
 
     /**
+     * Removes any keys from the configuration that are not associated with any registered delegate.
+     * This helps keeping the configuration file clean from legacy settings.
+     */
+    public fun removeRedundantKeys() {
+        val activePaths = delegates.map { it.path }.toSet()
+        val existingKeys = configWrapper.getKeys(deep = true)
+
+        val redundantKeys = existingKeys.filter { key ->
+            activePaths.none { active ->
+                active == key || active.startsWith("$key.") || key.startsWith("$active.")
+            }
+        }
+
+        redundantKeys.forEach { configWrapper.remove(it) }
+    }
+
+    /**
      * Config delegate for [Boolean] values.
      *
      * @param path A dot separated path for the config value
@@ -405,7 +422,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * A property delegate for storage in a backing [ConfigWrapper]. See [AbstractConfig] for usage.
      */
     public inner class ConfigDelegate<T>(
-        private val path: String,
+        internal val path: String,
         private val producer: (String) -> T,
         private val consumer: (String, T) -> Unit,
         private val comments: List<String> = emptyList()
@@ -450,6 +467,20 @@ public abstract class AbstractConfig protected constructor(protected val configW
      * Decouples config delegates from the underlying config framework.
      */
     public interface ConfigWrapper {
+
+        /**
+         * Gets all keys present in the config store.
+         *
+         * @param deep Whether to include keys from nested sections
+         */
+        public fun getKeys(deep: Boolean): Set<String>
+
+        /**
+         * Removes the value at the specified path.
+         *
+         * @param path The dot separated configuration value path
+         */
+        public fun remove(path: String)
 
         /**
          * Adds a default value to be used in absence of a value provided by the client.

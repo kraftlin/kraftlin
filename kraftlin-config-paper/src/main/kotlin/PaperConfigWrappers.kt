@@ -16,6 +16,12 @@ public fun wrapConfig(plugin: Plugin): AbstractConfig.ConfigWrapper = object : A
 
     val config: Configuration get() = plugin.config
 
+    override fun getKeys(deep: Boolean): Set<String> = config.getKeys(deep)
+
+    override fun remove(path: String) {
+        config.set(path, null)
+    }
+
     override fun addDefault(path: String, value: Any) = config.addDefault(path, value)
 
     override fun set(path: String, value: Any?) = config.set(path, value)
@@ -74,6 +80,12 @@ public fun wrapConfig(plugin: Plugin): AbstractConfig.ConfigWrapper = object : A
 public fun wrapConfig(configPath: Path): AbstractConfig.ConfigWrapper = object : AbstractConfig.ConfigWrapper {
 
     var config: YamlConfiguration = YamlConfiguration.loadConfiguration(configPath.toFile())
+
+    override fun getKeys(deep: Boolean): Set<String> = config.getKeys(deep)
+
+    override fun remove(path: String) {
+        config.set(path, null)
+    }
 
     override fun addDefault(path: String, value: Any) = config.addDefault(path, value)
 
