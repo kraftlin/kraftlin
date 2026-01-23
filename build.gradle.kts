@@ -5,9 +5,18 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.dokka)
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.axion.release)
+}
+
+dependencies {
+    dokka(project(":kraftlin-command-core"))
+    dokka(project(":kraftlin-command-paper"))
+    dokka(project(":kraftlin-config-core"))
+    dokka(project(":kraftlin-config-paper"))
+    dokka(project(":kraftlin-message-core"))
+    dokka(project(":kraftlin-message-paper"))
 }
 
 allprojects {
