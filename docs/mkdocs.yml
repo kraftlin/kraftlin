@@ -1,0 +1,19 @@
+site_name: Kraftlin
+site_url: https://kraftlin.github.io/kraftlin/
+docs_dir: .
+site_dir: ../site
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+
+nav:
+  - Home: index.md
+  - Config: config.md
+  - Command: command.md
+  - Message: message.md
+  - Platforms: platforms.md
+  - KDoc: kdoc/index.html

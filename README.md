@@ -109,6 +109,11 @@ Usage examples and guides are provided per module:
 
 Each module has its own README with examples and API details.
 
+Documentation and API reference:
+
+- Docs: https://kraftlin.github.io/kraftlin/
+- KDoc: https://kraftlin.github.io/kraftlin/kdoc/
+
 
 ## 🧠 Philosophy
 
