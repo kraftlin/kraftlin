@@ -47,6 +47,19 @@ val custom = object : AbstractConfig(wrapConfig(dataFolder.resolve("custom.yml")
 }
 ```
 
+## Database configuration
+
+Load database settings from a separate `database.yml` in the plugin data folder:
+
+```kotlin
+val database = loadSqlConfiguration(plugin)
+```
+
+We highly encourage this separation. It serves several purposes:
+1. It reduces the risk of accidentally sharing sensitive data or committing it to a repository.
+2. It allows you to easily switch between different database backends without changing the primary config.
+3. DevOps can easily automate database configurations.
+
 ## Features
 
 - Type-safe property delegates
