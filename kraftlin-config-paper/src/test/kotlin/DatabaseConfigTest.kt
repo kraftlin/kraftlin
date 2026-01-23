@@ -17,7 +17,7 @@ internal class DatabaseConfigTest {
     fun `load yaml from file`() {
         val dbConfig = testDirectory.resolve("database.yml")
         Files.newBufferedWriter(dbConfig, Charsets.UTF_8).use { writer ->
-            writer.write("url: 'jdbc:mysql://devsylum.de:3306/database'")
+            writer.write("url: 'jdbc:mysql://database.test:3306/database'")
             writer.newLine()
             writer.write("user: 'testuser'")
             writer.newLine()
@@ -26,7 +26,7 @@ internal class DatabaseConfigTest {
             writer.flush()
         }
 
-        val expected = SqlConfiguration("jdbc:mysql://devsylum.de:3306/database", "testuser", "testpassword")
+        val expected = SqlConfiguration("jdbc:mysql://database.test:3306/database", "testuser", "testpassword")
         val actual = loadSqlConfiguration(testDirectory)
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ internal class DatabaseConfigTest {
     fun `migrate legacy properties file to yaml`() {
         val legacyConfig = testDirectory.resolve("database.properties")
         Files.newBufferedWriter(legacyConfig, Charsets.UTF_8).use { writer ->
-            writer.write("url=jdbc:mysql://devsylum.de:3306/database")
+            writer.write("url=jdbc:mysql://database.test:3306/database")
             writer.newLine()
             writer.write("user=testuser")
             writer.newLine()
@@ -51,7 +51,7 @@ internal class DatabaseConfigTest {
             writer.flush()
         }
 
-        val expected = SqlConfiguration("jdbc:mysql://devsylum.de:3306/database", "testuser", "testpassword")
+        val expected = SqlConfiguration("jdbc:mysql://database.test:3306/database", "testuser", "testpassword")
         val actual = loadSqlConfiguration(testDirectory)
         val migrated = testDirectory.resolve("database.yml")
 
