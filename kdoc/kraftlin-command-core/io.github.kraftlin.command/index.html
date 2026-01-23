@@ -1,0 +1,446 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>io.github.kraftlin.command</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    kraftlin
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">0.5.0-SNAPSHOT
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":kraftlin-command-core/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":kraftlin-command-core/main" data-filter=":kraftlin-command-core/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kraftlin
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="kraftlin-command-core::io.github.kraftlin.command////PointingToDeclaration//1789107379">
+  <div class="breadcrumbs"><a href="../index.html">kraftlin-command-core</a><span class="delimiter">/</span><span class="current">io.github.kraftlin.command</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><p class="paragraph">Core DSL primitives and node builders used to construct command trees.</p><p class="paragraph">This package contains:</p><ul><li><p class="paragraph">Entry points like <a href="brigadier-command.html">io.github.kraftlin.command.brigadierCommand</a> for creating command trees.</p></li><li><p class="paragraph">Node builders like <a href="literal.html">io.github.kraftlin.command.literal</a> and <a href="argument.html">io.github.kraftlin.command.argument</a>.</p></li><li><p class="paragraph"><a href="-k-context/index.html">io.github.kraftlin.command.KContext</a> for idiomatic argument retrieval.</p></li><li><p class="paragraph">Execution builders like <a href="executes.html">io.github.kraftlin.command.executes</a> and <a href="executes-result.html">io.github.kraftlin.command.executesResult</a>.</p></li><li><p class="paragraph">Requirement builders like <a href="requires.html">io.github.kraftlin.command.requires</a>.</p></li></ul><p class="paragraph">All functionality here is platform-agnostic and does not depend on Paper or Minecraft classes.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-2026235220%2FClasslikes%2F1789107379" anchor-label="ArgumentNode" id="-2026235220%2FClasslikes%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-argument-node/index.html"><span>Argument</span><wbr><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2026235220%2FClasslikes%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="-argument-node/index.html">S</a><span class="token punctuation">, </span><a href="-argument-node/index.html">T</a><span class="token operator">&gt;</span> : <a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="-argument-node/index.html">S</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-835850119%2FClasslikes%2F1789107379" anchor-label="CommandDsl" id="-835850119%2FClasslikes%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-command-dsl/index.html"><span>Command</span><wbr><span><span>Dsl</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-835850119%2FClasslikes%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-dsl-marker/index.html"><span class="token annotation builtin">DslMarker</span></a></div></div><span class="token keyword">annotation class </span><a href="-command-dsl/index.html">CommandDsl</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1612550868%2FClasslikes%2F1789107379" anchor-label="ExecuteScope" id="-1612550868%2FClasslikes%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-execute-scope/index.html"><span>Execute</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1612550868%2FClasslikes%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-execute-scope/index.html">ExecuteScope</a><span class="token operator">&lt;</span><a href="-execute-scope/index.html">S</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1084210919%2FClasslikes%2F1789107379" anchor-label="KContext" id="1084210919%2FClasslikes%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-k-context/index.html"><span><span>KContext</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1084210919%2FClasslikes%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="-k-context/index.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>rawContext<span class="token operator">: </span><span data-unresolved-link="com.mojang.brigadier.context/CommandContext///PointingToDeclaration/">CommandContext</span><span class="token operator">&lt;</span><a href="-k-context/index.html">S</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1396081350%2FClasslikes%2F1789107379" anchor-label="LiteralNode" id="1396081350%2FClasslikes%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-literal-node/index.html"><span>Literal</span><wbr><span><span>Node</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1396081350%2FClasslikes%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="-literal-node/index.html">S</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="594252851%2FFunctions%2F1789107379" anchor-label="argument" id="594252851%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="argument.html"><span><span>argument</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="594252851%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="argument.html">S</a><span class="token punctuation">, </span><a href="argument.html">T</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="argument.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="argument.html"><span class="token function">argument</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">type<span class="token operator">: </span><span data-unresolved-link="com.mojang.brigadier.arguments/ArgumentType///PointingToDeclaration/">ArgumentType</span><span class="token operator">&lt;</span><a href="argument.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="argument.html">S</a><span class="token punctuation">, </span><a href="argument.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="717747741%2FFunctions%2F1789107379" anchor-label="boolean" id="717747741%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="boolean.html"><span><span>boolean</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="717747741%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="boolean.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="boolean.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="boolean.html"><span class="token function">boolean</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="boolean.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-547799206%2FFunctions%2F1789107379" anchor-label="brigadierCommand" id="-547799206%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="brigadier-command.html"><span>brigadier</span><wbr><span><span>Command</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-547799206%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="brigadier-command.html">S</a><span class="token operator">&gt; </span><a href="brigadier-command.html"><span class="token function">brigadierCommand</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="brigadier-command.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.mojang.brigadier.tree/LiteralCommandNode///PointingToDeclaration/">LiteralCommandNode</span><span class="token operator">&lt;</span><a href="brigadier-command.html">S</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-844895380%2FFunctions%2F1789107379" anchor-label="double" id="-844895380%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="double.html"><span><span>double</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-844895380%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="double.html"><span class="token function">double</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="double.html"><span class="token function">double</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="double.html"><span class="token function">double</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="double.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="973132309%2FFunctions%2F1789107379" anchor-label="executes" id="973132309%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="executes.html"><span><span>executes</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="973132309%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="executes.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="executes.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="executes.html"><span class="token function">executes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-execute-scope/index.html">ExecuteScope</a><span class="token operator">&lt;</span><a href="executes.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="executes.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="873448355%2FFunctions%2F1789107379" anchor-label="executesResult" id="873448355%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="executes-result.html"><span>executes</span><wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="873448355%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="executes-result.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="executes-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="executes-result.html"><span class="token function">executesResult</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-execute-scope/index.html">ExecuteScope</a><span class="token operator">&lt;</span><a href="executes-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="executes-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1073636113%2FFunctions%2F1789107379" anchor-label="float" id="1073636113%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="float.html"><span><span>float</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1073636113%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="float.html"><span class="token function">float</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="float.html"><span class="token function">float</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="float.html"><span class="token function">float</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="float.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="290153787%2FFunctions%2F1789107379" anchor-label="greedyString" id="290153787%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="greedy-string.html"><span>greedy</span><wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="290153787%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="greedy-string.html">S</a><span class="token operator">&gt; </span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="greedy-string.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="greedy-string.html"><span class="token function">greedyString</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="greedy-string.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="greedy-string.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="greedy-string.html"><span class="token function">greedyString</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="greedy-string.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1545511091%2FFunctions%2F1789107379" anchor-label="integer" id="-1545511091%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="integer.html"><span><span>integer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1545511091%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="integer.html"><span class="token function">integer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="integer.html"><span class="token function">integer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="integer.html"><span class="token function">integer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="integer.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="874737792%2FFunctions%2F1789107379" anchor-label="literal" id="874737792%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="literal.html"><span><span>literal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="874737792%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="literal.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="literal.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="literal.html"><span class="token function">literal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>aliases<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="literal.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-525625203%2FFunctions%2F1789107379" anchor-label="long" id="-525625203%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="long.html"><span><span>long</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-525625203%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="long.html"><span class="token function">long</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="long.html"><span class="token function">long</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="long.html"><span class="token function">long</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">min<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="long.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1306220563%2FFunctions%2F1789107379" anchor-label="requires" id="1306220563%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="requires.html"><span><span>requires</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1306220563%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="requires.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="requires.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="requires.html"><span class="token function">requires</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">predicate<span class="token operator">: </span><span class="token punctuation">(</span><a href="requires.html">S</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1950890511%2FFunctions%2F1789107379" anchor-label="string" id="-1950890511%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="string.html"><span><span>string</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1950890511%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="string.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="string.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="string.html"><span class="token function">string</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="string.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1826857770%2FFunctions%2F1789107379" anchor-label="suggests" id="-1826857770%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="suggests.html"><span><span>suggests</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1826857770%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="suggests.html">S</a><span class="token punctuation">, </span><a href="suggests.html">T</a><span class="token operator">&gt; </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="suggests.html">S</a><span class="token punctuation">, </span><a href="suggests.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="suggests.html"><span class="token function">suggests</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">provider<span class="token operator">: </span><span class="token punctuation">(</span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="suggests.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span data-unresolved-link="com.mojang.brigadier.suggestion/SuggestionsBuilder///PointingToDeclaration/">SuggestionsBuilder</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html">CompletableFuture</a><span class="token operator">&lt;</span><span data-unresolved-link="com.mojang.brigadier.suggestion/Suggestions///PointingToDeclaration/">Suggestions</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-867029948%2FFunctions%2F1789107379" anchor-label="suggestsStatic" id="-867029948%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="suggests-static.html"><span>suggests</span><wbr><span><span>Static</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-867029948%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="suggests-static.html">S</a><span class="token punctuation">, </span><a href="suggests-static.html">T</a><span class="token operator">&gt; </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="suggests-static.html">S</a><span class="token punctuation">, </span><a href="suggests-static.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="suggests-static.html"><span class="token function">suggestsStatic</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>values<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="suggests-static.html">S</a><span class="token punctuation">, </span><a href="suggests-static.html">T</a><span class="token operator">&gt; </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="suggests-static.html">S</a><span class="token punctuation">, </span><a href="suggests-static.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="suggests-static.html"><span class="token function">suggestsStatic</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">values<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="372226989%2FFunctions%2F1789107379" anchor-label="word" id="372226989%2FFunctions%2F1789107379" data-filterable-set=":kraftlin-command-core/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":kraftlin-command-core/main" data-filterable-set=":kraftlin-command-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="word.html"><span><span>word</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="372226989%2FFunctions%2F1789107379"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kraftlin-command-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="word.html">S</a><span class="token operator">&gt; </span><a href="-k-context/index.html">KContext</a><span class="token operator">&lt;</span><a href="word.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="word.html"><span class="token function">word</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="word.html">S</a><span class="token operator">&gt; </span><a href="-literal-node/index.html">LiteralNode</a><span class="token operator">&lt;</span><a href="word.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="word.html"><span class="token function">word</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-argument-node/index.html">ArgumentNode</a><span class="token operator">&lt;</span><a href="word.html">S</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

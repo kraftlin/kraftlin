@@ -1,0 +1,16 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:kraftlin-command-core
+io.github.kraftlin.command
+module:kraftlin-command-paper
+io.github.kraftlin.command.paper
+io.github.kraftlin.command.paper.arguments
+module:kraftlin-config-core
+io.github.kraftlin.config
+module:kraftlin-config-paper
+io.github.kraftlin.config.paper
+module:kraftlin-message-core
+io.github.kraftlin.message
+module:kraftlin-message-paper
+io.github.kraftlin.message.paper

@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":kraftlin-config-core/main":[],":kraftlin-command-core/main":[],":kraftlin-config-paper/main":[],":kraftlin-command-paper/main":[],":kraftlin-message-core/main":[],":kraftlin-message-paper/main":[]}'
