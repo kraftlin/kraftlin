@@ -24,6 +24,7 @@ Paper integration layer for the core DSL.
 This package provides:
 
 - Registration helpers like [io.github.kraftlin.command.paper.registerKraftlinCommands] for Paper commands.
+- Optional alias override support by setting `overrideAliases = true` when building commands (uses Paper's alias override when available).
 - Extensions for [io.github.kraftlin.command.paper.PaperLiteralNode] such as [io.github.kraftlin.command.paper.executesPlayer]
   and [io.github.kraftlin.command.paper.requiresPermission].
 - Access to the underlying Paper `CommandSourceStack` via [io.github.kraftlin.command.paper.PaperSource].

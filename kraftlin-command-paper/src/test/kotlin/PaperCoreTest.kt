@@ -10,6 +10,8 @@ import org.bukkit.entity.Player
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class PaperCoreTest {
 
@@ -118,5 +120,23 @@ class PaperCoreTest {
             executes { }
         }
         assertEquals("test", cmd.node.literal)
+    }
+
+    @Test
+    fun `test overrideAliases flag`() {
+        val defaultCmd = kraftlinCommand("test") {
+            executes { }
+        }
+        assertFalse(defaultCmd.overrideAliases)
+
+        val overriding = kraftlinCommand(
+            name = "test",
+            aliases = listOf("alias"),
+            overrideAliases = true,
+        ) {
+            executes { }
+        }
+        assertTrue(overriding.overrideAliases)
+        assertEquals(listOf("alias"), overriding.aliases)
     }
 }

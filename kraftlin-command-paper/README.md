@@ -85,3 +85,5 @@ override fun onEnable() {
     }
 }
 ```
+
+If you want aliases to override existing commands, including those from vanilla and other plugins, set `overrideAliases = true` when building the command.
