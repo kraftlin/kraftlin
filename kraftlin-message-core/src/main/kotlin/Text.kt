@@ -7,6 +7,12 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 
 /**
+ * Compatibility extension for Adventure 4.25.0 which doesn't have Component.toBuilder()
+ * TODO: replace with Component.toBuilder() once paper updates adventure to 4.26
+ */
+private fun Component.toBuilderCompat(): ComponentBuilder<*, *> = text().append(this)
+
+/**
  * A text part of a [Message].
  *
  * If a formatting option is not specified, the value of the containing message is applied.
@@ -17,7 +23,7 @@ import net.kyori.adventure.text.format.TextDecoration
 @ChatMarker
 public open class Text(internal val builder: ComponentBuilder<*, *>) : Stylable {
 
-    public constructor(component: Component) : this(component.toBuilder())
+    public constructor(component: Component) : this(component.toBuilderCompat())
 
     public constructor(text: String) : this(text().content(text))
 

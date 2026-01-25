@@ -1,9 +1,16 @@
 package io.github.kraftlin.message
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.ComponentBuilder
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEventSource
+
+/**
+ * Compatibility extension for Adventure 4.25.0 which doesn't have Component.toBuilder()
+ * TODO: replace with Component.toBuilder() once paper updates adventure to 4.26
+ */
+private fun Component.toBuilderCompat(): ComponentBuilder<*, *> = text().append(this)
 
 /**
  * A text part of a [ClickableMessage].
@@ -16,7 +23,7 @@ import net.kyori.adventure.text.event.HoverEventSource
 @ChatMarker
 public class ClickableText(builder: ComponentBuilder<*, *>) : Text(builder), Stylable, Clickable {
 
-    public constructor(component: Component) : this(component.toBuilder())
+    public constructor(component: Component) : this(component.toBuilderCompat())
 
     public constructor(text: String) : this(Component.text().content(text))
 
