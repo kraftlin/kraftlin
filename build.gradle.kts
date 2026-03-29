@@ -43,24 +43,30 @@ subprojects {
     group = rootProject.group
     version = rootProject.version
 
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "java-library")
-    apply(plugin = "org.jetbrains.dokka")
+    val isBom = project.name == "kraftlin-bom"
+
+    if (!isBom) {
+        apply(plugin = "org.jetbrains.kotlin.jvm")
+        apply(plugin = "java-library")
+        apply(plugin = "org.jetbrains.dokka")
+    }
     apply(plugin = "com.vanniktech.maven.publish")
 
-    extensions.configure<KotlinJvmProjectExtension> {
-        explicitApi()
-        jvmToolchain(21)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+    if (!isBom) {
+        extensions.configure<KotlinJvmProjectExtension> {
+            explicitApi()
+            jvmToolchain(21)
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_21)
+            }
         }
-    }
 
-    extensions.configure<DokkaExtension> {
-        dokkaSourceSets.configureEach {
-            val docFile = file("docs/${project.name}.md")
-            if (docFile.isFile) {
-                includes.from(docFile)
+        extensions.configure<DokkaExtension> {
+            dokkaSourceSets.configureEach {
+                val docFile = file("docs/${project.name}.md")
+                if (docFile.isFile) {
+                    includes.from(docFile)
+                }
             }
         }
     }
@@ -84,6 +90,7 @@ subprojects {
                     "kraftlin-config-velocity" -> "Velocity-specific config implementation."
                     "kraftlin-message-core" -> "Kotlin DSL for building Adventure components."
                     "kraftlin-message-paper" -> "Paper-specific message helpers."
+                    "kraftlin-bom" -> "Bill of Materials for Kraftlin libraries."
                     else -> "Kraftlin module: ${project.name}"
                 }
             )

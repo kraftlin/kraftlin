@@ -1,6 +1,7 @@
 rootProject.name = "kraftlin"
 
 include(
+    "kraftlin-bom",
     "kraftlin-command-core",
     "kraftlin-command-paper",
     "kraftlin-config-core",
