@@ -15,6 +15,8 @@ dependencies {
     dokka(project(":kraftlin-command-paper"))
     dokka(project(":kraftlin-config-core"))
     dokka(project(":kraftlin-config-paper"))
+    dokka(project(":kraftlin-config-bungee"))
+    dokka(project(":kraftlin-config-velocity"))
     dokka(project(":kraftlin-message-core"))
     dokka(project(":kraftlin-message-paper"))
 }
@@ -78,6 +80,8 @@ subprojects {
                     "kraftlin-command-paper" -> "Paper integration for Kraftlin commands."
                     "kraftlin-config-core" -> "Type-safe Kotlin delegates for structured configuration."
                     "kraftlin-config-paper" -> "Paper-specific config implementation."
+                    "kraftlin-config-bungee" -> "BungeeCord-specific config implementation."
+                    "kraftlin-config-velocity" -> "Velocity-specific config implementation."
                     "kraftlin-message-core" -> "Kotlin DSL for building Adventure components."
                     "kraftlin-message-paper" -> "Paper-specific message helpers."
                     else -> "Kraftlin module: ${project.name}"
