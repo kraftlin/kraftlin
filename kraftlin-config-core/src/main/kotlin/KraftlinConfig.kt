@@ -588,18 +588,26 @@ public abstract class AbstractConfig protected constructor(protected val configW
 
         /**
          * Reloads all configuration values from the underlying config representation, for example from file.
+         *
+         * @throws ConfigException if the configuration file cannot be read or parsed.
+         *     The previous working configuration remains active.
          */
         public fun reloadConfig()
 
         /**
          * Stores the default values provided by [addDefault] for any path that has no user provided value.
          * If the underlying config representation does not exist, it is created and initiated with the default values.
+         *
+         * @throws ConfigException if the configuration file or its parent directories cannot be created or written.
          */
         public fun saveDefaults()
 
         /**
          * Persists any changes in configuration values to disk.
          * WARNING: overwrites any changes done to the config file on disk!
+         *
+         * @throws ConfigException if the configuration cannot be written to disk.
+         *     The in-memory configuration is not affected.
          */
         public fun save()
 

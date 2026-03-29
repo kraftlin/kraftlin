@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -63,5 +64,40 @@ internal class DatabaseConfigTest {
     fun `prevent password leakage through toString method`() {
         val config = SqlConfiguration("", "", "secret")
         assertFalse(config.toString().contains("secret"))
+    }
+
+    // ========================= Error handling =========================
+
+    @Test
+    fun `malformed YAML throws ConfigException`() {
+        val dbConfig = testDirectory.resolve("database.yml")
+        Files.writeString(dbConfig, ":{invalid yaml")
+
+        val exception = assertFailsWith<ConfigException> {
+            loadSqlConfiguration(testDirectory, saveDefault = false)
+        }
+        assertTrue(exception.message!!.contains(dbConfig.toString()))
+    }
+
+    @Test
+    fun `non-mapping YAML throws ConfigException`() {
+        val dbConfig = testDirectory.resolve("database.yml")
+        Files.writeString(dbConfig, "- item1\n- item2\n")
+
+        val exception = assertFailsWith<ConfigException> {
+            loadSqlConfiguration(testDirectory, saveDefault = false)
+        }
+        assertTrue(exception.message!!.contains("not a valid YAML mapping"))
+    }
+
+    @Test
+    fun `missing required key throws ConfigException`() {
+        val dbConfig = testDirectory.resolve("database.yml")
+        Files.writeString(dbConfig, "url: 'jdbc:mysql://localhost:3306/db'\nuser: 'admin'\n")
+
+        val exception = assertFailsWith<ConfigException> {
+            loadSqlConfiguration(testDirectory, saveDefault = false)
+        }
+        assertTrue(exception.message!!.contains("password"), "Message should mention the missing key")
     }
 }

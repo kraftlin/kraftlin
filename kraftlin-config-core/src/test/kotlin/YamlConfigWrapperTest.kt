@@ -4,6 +4,7 @@ package io.github.kraftlin.config
 
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.io.TempDir
+import org.snakeyaml.engine.v2.exceptions.YamlEngineException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.logging.Handler
@@ -12,7 +13,9 @@ import java.util.logging.LogRecord
 import java.util.logging.Logger
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 internal class YamlConfigWrapperTest {
@@ -539,6 +542,82 @@ internal class YamlConfigWrapperTest {
         wrapper.getInt("value")
         assertTrue(warnings.isNotEmpty(), "Type mismatch should produce a warning")
         assertTrue(warnings.first().contains("not-a-number"), "Warning should mention the actual value")
+    }
+
+    // ========================= Error handling =========================
+
+    @Test
+    fun `malformed YAML on initial load throws ConfigException`() {
+        val file = dir.resolve("malformed.yml")
+        Files.writeString(file, "key: [unclosed")
+
+        val exception = assertFailsWith<ConfigException> { wrapConfig(file) }
+        assertTrue(exception.message!!.contains(file.toString()), "Message should contain file path")
+        assertTrue(exception.message!!.contains("invalid YAML"), "Message should mention invalid YAML")
+        assertIs<YamlEngineException>(exception.cause, "Cause should be YamlEngineException")
+        assertEquals(file, exception.path, "Exception path should match config file")
+    }
+
+    @Test
+    fun `malformed YAML on reload preserves old data and throws ConfigException`() {
+        val file = dir.resolve("reload-fail.yml")
+        Files.writeString(file, "key: original")
+
+        val wrapper = wrapConfig(file)
+        wrapper.addDefault("key", "")
+        assertEquals("original", wrapper.getString("key"))
+
+        // Overwrite with malformed YAML
+        Files.writeString(file, "key: [unclosed")
+
+        assertFailsWith<ConfigException> { wrapper.reloadConfig() }
+
+        // Old data should still be intact
+        assertEquals("original", wrapper.getString("key"))
+    }
+
+    @Test
+    fun `reload with deleted file resets to empty data`() {
+        val file = dir.resolve("delete-me.yml")
+        Files.writeString(file, "key: value")
+
+        val wrapper = wrapConfig(file)
+        assertEquals(setOf("key"), wrapper.getKeys(deep = true))
+
+        Files.delete(file)
+        wrapper.reloadConfig()
+
+        assertEquals(emptySet(), wrapper.getKeys(deep = true))
+    }
+
+    @Test
+    fun `save failure throws ConfigException with data intact`() {
+        // Start with a valid file so the wrapper initializes with data
+        val file = dir.resolve("save-fail.yml")
+        Files.writeString(file, "key: value")
+        val wrapper = wrapConfig(file)
+        wrapper.addDefault("key", "")
+        assertEquals("value", wrapper.getString("key"))
+
+        // Make the file unsaveable by replacing it with a directory
+        Files.delete(file)
+        Files.createDirectory(file)
+
+        val exception = assertFailsWith<ConfigException> { wrapper.save() }
+        assertTrue(exception.message!!.contains(file.toString()))
+        assertTrue(exception.message!!.contains("Could not save"))
+
+        // Data is still intact
+        assertEquals("value", wrapper.getString("key"))
+    }
+
+    @Test
+    fun `ConfigException contains file path property`() {
+        val file = dir.resolve("bad.yml")
+        Files.writeString(file, "key: [unclosed")
+
+        val exception = assertFailsWith<ConfigException> { wrapConfig(file) }
+        assertEquals(file, exception.path)
     }
 
     // ========================= Helpers =========================

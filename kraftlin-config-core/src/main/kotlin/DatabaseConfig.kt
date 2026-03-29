@@ -1,5 +1,6 @@
 package io.github.kraftlin.config
 
+import org.snakeyaml.engine.v2.api.Dump
 import org.snakeyaml.engine.v2.api.Load
 import org.snakeyaml.engine.v2.exceptions.YamlEngineException
 import java.io.IOException
@@ -59,11 +60,25 @@ public fun loadSqlConfiguration(dataFolder: Path, saveDefault: Boolean = true): 
     try {
         val parsed = load.loadFromString(Files.readString(configFile))
         config = parsed as? Map<*, *>
-            ?: throw IllegalStateException("Database configuration at $configFile is not a YAML mapping")
+            ?: throw ConfigException(
+                configFile,
+                "Database configuration at '$configFile' is not a valid YAML mapping.\n" +
+                    "The file should contain key-value pairs for 'url', 'user', and 'password'."
+            )
     } catch (exception: IOException) {
-        throw IllegalStateException("Failed to read database configuration at $configFile", exception)
+        throw ConfigException(
+            configFile,
+            "Could not read database configuration file at '$configFile'.\n" +
+                "Please check that the file exists and is readable.",
+            exception
+        )
     } catch (exception: YamlEngineException) {
-        throw IllegalStateException("Invalid YAML in database configuration at $configFile", exception)
+        throw ConfigException(
+            configFile,
+            "Could not read database configuration at '$configFile' because it contains invalid YAML.\n" +
+                "Please check the file for syntax errors.",
+            exception
+        )
     }
 
     return SqlConfiguration(
@@ -84,20 +99,33 @@ private fun loadPropertiesConfiguration(configFile: Path): SqlConfiguration {
 }
 
 private fun writeYamlConfiguration(dataFolder: Path, configFile: Path, config: SqlConfiguration) {
-    Files.createDirectories(dataFolder)
-    val yaml = linkedMapOf<String, String>(
-        "url" to config.url,
-        "user" to config.user,
-        "password" to config.password
-    )
-    val dump = org.snakeyaml.engine.v2.api.Dump(yamlDumpSettings)
-    Files.writeString(configFile, dump.dumpToString(yaml))
+    try {
+        Files.createDirectories(dataFolder)
+        val yaml = linkedMapOf<String, String>(
+            "url" to config.url,
+            "user" to config.user,
+            "password" to config.password
+        )
+        val dump = Dump(yamlDumpSettings)
+        Files.writeString(configFile, dump.dumpToString(yaml))
+    } catch (e: IOException) {
+        throw ConfigException(
+            configFile,
+            "Could not write database configuration to '$configFile'.\n" +
+                "Please check file system permissions and available disk space.",
+            e
+        )
+    }
 }
 
 private fun requireConfigValue(config: Map<*, *>, key: String, configFile: Path): String {
     val value = config[key]?.toString()?.trim()
     if (value.isNullOrEmpty()) {
-        throw IllegalStateException("Missing required database configuration key '$key' in $configFile")
+        throw ConfigException(
+            configFile,
+            "Missing required key '$key' in database configuration at '$configFile'.\n" +
+                "The file must contain 'url', 'user', and 'password' entries."
+        )
     }
     return value
 }

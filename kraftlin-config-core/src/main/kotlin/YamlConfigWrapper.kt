@@ -15,6 +15,7 @@ import org.snakeyaml.engine.v2.nodes.ScalarNode
 import org.snakeyaml.engine.v2.nodes.SequenceNode
 import org.snakeyaml.engine.v2.representer.StandardRepresenter
 import org.snakeyaml.engine.v2.schema.CoreSchema
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.NoSuchFileException
 import java.nio.file.Path
@@ -72,30 +73,48 @@ private class YamlConfigWrapper(
 
     init {
         try {
-            loadFromFile()
+            val result = parseFile()
+            if (result != null) {
+                data = result.first
+                comments.putAll(result.second)
+            }
         } catch (_: NoSuchFileException) {
             // File doesn't exist yet — start with empty data, defaults will be applied later
         }
     }
 
-    private fun loadFromFile() {
+    /**
+     * Parses the YAML file without mutating any instance state.
+     *
+     * @return parsed (data, comments) or `null` if the file is blank or not a mapping
+     * @throws ConfigException if the file contains invalid YAML
+     * @throws NoSuchFileException if the file does not exist
+     */
+    private fun parseFile(): Pair<MutableMap<String, Any?>, MutableMap<String, List<String>>>? {
         val yaml = Files.readString(configPath)
-        if (yaml.isBlank()) return
+        if (yaml.isBlank()) return null
 
         val compose = Compose(yamlLoadSettings)
         val node = try {
-            compose.composeString(yaml).orElse(null) ?: return
+            compose.composeString(yaml).orElse(null) ?: return null
         } catch (e: YamlEngineException) {
-            throw IllegalStateException("Failed to parse YAML configuration at $configPath", e)
+            throw ConfigException(
+                configPath,
+                "Could not read configuration file '$configPath' because it contains invalid YAML.\n" +
+                    "Please check the file for syntax errors (mismatched quotes, wrong indentation, stray characters).",
+                e
+            )
         }
 
         if (node !is MappingNode) {
             logger.warning("YAML configuration at '$configPath' is not a mapping (found ${node.nodeType}), ignoring content")
-            return
+            return null
         }
 
-        data = nodeToMap(node)
-        extractComments(node)
+        val parsedData = nodeToMap(node)
+        val parsedComments = linkedMapOf<String, List<String>>()
+        extractComments(node, null, parsedComments)
+        return parsedData to parsedComments
     }
 
     private fun nodeToMap(node: MappingNode): MutableMap<String, Any?> {
@@ -130,7 +149,7 @@ private class YamlConfigWrapper(
         }
     }
 
-    private fun extractComments(node: Node, prefix: String? = null) {
+    private fun extractComments(node: Node, prefix: String?, target: MutableMap<String, List<String>>) {
         if (node is MappingNode) {
             for (tuple in node.value) {
                 val keyNode = tuple.keyNode
@@ -138,11 +157,11 @@ private class YamlConfigWrapper(
                     val path = if (prefix != null) "$prefix.${keyNode.value}" else keyNode.value
                     val blockComments = keyNode.blockComments
                     if (blockComments.isNotEmpty()) {
-                        comments[path] = blockComments
+                        target[path] = blockComments
                             .filter { it.commentType == CommentType.BLOCK }
                             .map { it.value.trimStart() }
                     }
-                    extractComments(tuple.valueNode, path)
+                    extractComments(tuple.valueNode, path, target)
                 }
             }
         }
@@ -368,13 +387,22 @@ private class YamlConfigWrapper(
     }
 
     override fun reloadConfig() {
-        data = linkedMapOf()
-        comments.clear()
         try {
-            loadFromFile()
+            val result = parseFile()
+            // Parse succeeded — safe to swap
+            if (result != null) {
+                data = result.first
+                comments.clear()
+                comments.putAll(result.second)
+            } else {
+                data = linkedMapOf()
+                comments.clear()
+            }
         } catch (_: NoSuchFileException) {
-            // File doesn't exist — use empty data
+            data = linkedMapOf()
+            comments.clear()
         }
+        // ConfigException propagates — old data/comments untouched
     }
 
     override fun saveDefaults() {
@@ -383,7 +411,16 @@ private class YamlConfigWrapper(
                 setAtPath(path, value)
             }
         }
-        configPath.parent?.let { Files.createDirectories(it) }
+        try {
+            configPath.parent?.let { Files.createDirectories(it) }
+        } catch (e: IOException) {
+            throw ConfigException(
+                configPath,
+                "Could not create directories for configuration file '$configPath'.\n" +
+                    "Please check file system permissions.",
+                e
+            )
+        }
         saveToFile()
     }
 
@@ -400,7 +437,16 @@ private class YamlConfigWrapper(
         val writer = StringStreamWriter()
         val dump = Dump(yamlDumpSettings)
         dump.dumpNode(node, writer)
-        Files.writeString(configPath, writer.toString())
+        try {
+            Files.writeString(configPath, writer.toString())
+        } catch (e: IOException) {
+            throw ConfigException(
+                configPath,
+                "Could not save configuration to '$configPath'. The in-memory configuration is still intact.\n" +
+                    "Please check that the file is not read-only and that there is enough disk space.",
+                e
+            )
+        }
     }
 
     private fun applyComments(node: MappingNode, prefix: String? = null) {
