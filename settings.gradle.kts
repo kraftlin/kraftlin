@@ -5,6 +5,7 @@ include(
     "kraftlin-command-paper",
     "kraftlin-config-core",
     "kraftlin-config-paper",
+    "kraftlin-config-bungee",
     "kraftlin-message-core",
     "kraftlin-message-paper",
 )
