@@ -1,12 +1,12 @@
-package io.github.kraftlin.config.bungee
+package io.github.kraftlin.config
 
-import io.github.kraftlin.config.SqlConfiguration
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class DatabaseConfigTest {
 
@@ -56,7 +56,7 @@ internal class DatabaseConfigTest {
         val migrated = testDirectory.resolve("database.yml")
 
         assertEquals(expected, actual)
-        assertEquals(true, Files.exists(migrated))
+        assertTrue(Files.exists(migrated))
     }
 
     @Test

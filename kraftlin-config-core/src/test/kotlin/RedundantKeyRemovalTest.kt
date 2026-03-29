@@ -1,8 +1,7 @@
 @file:Suppress("unused")
 
-package io.github.kraftlin.config.bungee
+package io.github.kraftlin.config
 
-import io.github.kraftlin.config.AbstractConfig
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
 import java.nio.file.Path

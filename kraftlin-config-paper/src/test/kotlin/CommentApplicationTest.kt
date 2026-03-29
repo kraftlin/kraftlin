@@ -3,6 +3,7 @@
 package io.github.kraftlin.config.paper
 
 import io.github.kraftlin.config.AbstractConfig
+import io.github.kraftlin.config.wrapConfig
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
 import java.nio.file.Path

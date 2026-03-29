@@ -7,7 +7,7 @@ axionRelease = "1.21.1"
 brigadier = "1.3.10"
 adventure = "4.25.0"
 paperApi = "1.21.10-R0.1-SNAPSHOT"
-bungeecordApi = "1.21-R0.4"
+snakeyamlEngine = "3.0.1"
 junitJupiter = "5.14.2"
 mockk = "1.14.7"
 jsonassert = "1.5.3"
@@ -21,7 +21,7 @@ axion-release = { id = "pl.allegro.tech.build.axion-release", version.ref = "axi
 [libraries]
 brigadier = { module = "com.mojang:brigadier", version.ref = "brigadier" }
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paperApi" }
-bungeecord-api = { module = "net.md-5:bungeecord-api", version.ref = "bungeecordApi" }
+snakeyaml-engine = { module = "org.snakeyaml:snakeyaml-engine", version.ref = "snakeyamlEngine" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
