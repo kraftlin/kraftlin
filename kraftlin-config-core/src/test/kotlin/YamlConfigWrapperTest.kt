@@ -474,6 +474,35 @@ internal class YamlConfigWrapperTest {
     // ========================= Integration =========================
 
     @Test
+    fun `reload after external edit does not overwrite file`() {
+        val file = dir.resolve("config.yml")
+        val config = object : AbstractConfig(wrapConfig(file)) {
+            var name: String by config("name", "default")
+            var count: Int by config("count", 1)
+        }
+        config.saveDefaults()
+        assertEquals("default", config.name)
+
+        // Simulate an operator editing the file by hand
+        @Language("yaml")
+        val edited = """
+            |name: custom
+            |count: 99
+            |""".trimMargin()
+        Files.writeString(file, edited)
+
+        config.reloadConfig()
+
+        // New values must be loaded
+        assertEquals("custom", config.name)
+        assertEquals(99, config.count)
+
+        // File on disk must still contain the hand-edited content, not be overwritten
+        val content = Files.readString(file)
+        assertEquals(edited, content)
+    }
+
+    @Test
     fun `full save reload edit cycle`() {
         val file = dir.resolve("config.yml")
         val config = object : AbstractConfig(wrapConfig(file)) {
