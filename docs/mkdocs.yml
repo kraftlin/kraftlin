@@ -1,5 +1,7 @@
 site_name: Kraftlin
 site_url: https://kraftlin.github.io/kraftlin/
+repo_url: https://github.com/kraftlin/kraftlin
+repo_name: kraftlin/kraftlin
 docs_dir: .
 site_dir: ../site
 
