@@ -30,10 +30,11 @@ jobs:
           python -m pip install mkdocs-material
           mkdocs build -f docs/mkdocs.yml
 
-      - name: Add KDoc to site
+      - name: Add KDoc and extra files to site
         run: |
           mkdir -p site/kdoc
           cp -r build/dokka/html/* site/kdoc/
+          cp docs/googlea01f5090332f9149.html site/
 
       - name: Generate deploy token
         id: app-token
