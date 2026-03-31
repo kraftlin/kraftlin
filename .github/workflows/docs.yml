@@ -35,8 +35,19 @@ jobs:
           mkdir -p site/kdoc
           cp -r build/dokka/html/* site/kdoc/
 
-      - name: Publish to gh-pages
+      - name: Generate deploy token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+          owner: kraftlin
+          repositories: kraftlin.github.io
+
+      - name: Publish to kraftlin.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ steps.app-token.outputs.token }}
+          external_repository: kraftlin/kraftlin.github.io
+          publish_branch: main
           publish_dir: site

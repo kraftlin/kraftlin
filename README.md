@@ -110,8 +110,8 @@ It is actively used in production on our own server across multiple plugins.
 
 Full documentation and guides:
 
-- **Docs**: [kraftlin.github.io/kraftlin](https://kraftlin.github.io/kraftlin/)
-- **KDoc**: [kraftlin.github.io/kraftlin/kdoc](https://kraftlin.github.io/kraftlin/kdoc/)
+- **Docs**: [kraftlin.github.io/kraftlin](https://kraftlin.github.io/)
+- **KDoc**: [kraftlin.github.io/kraftlin/kdoc](https://kraftlin.github.io/kdoc/)
 
 
 ## 🧠 Philosophy

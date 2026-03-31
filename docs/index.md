@@ -150,7 +150,7 @@ types (sender, plugin, data directory) while the DSL and concepts remain identic
 
 ## Reference
 
-- **API Documentation**: [KDoc](https://kraftlin.github.io/kraftlin/kdoc/)
+- **API Documentation**: [KDoc](https://kraftlin.github.io/kdoc/)
 - **GitHub**: [kraftlin/kraftlin](https://github.com/kraftlin/kraftlin)
 - **Maven Central**: [io.github.kraftlin](https://central.sonatype.com/namespace/io.github.kraftlin)
 
