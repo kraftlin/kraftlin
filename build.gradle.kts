@@ -101,7 +101,7 @@ subprojects {
                 }
             )
             inceptionYear.set("2026")
-            url.set("https://github.com/kraftlin/kraftlin")
+            url.set("https://kraftlin.github.io/")
 
             licenses {
                 license {
