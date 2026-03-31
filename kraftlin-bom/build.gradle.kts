@@ -12,5 +12,7 @@ dependencies {
         api(project(":kraftlin-config-velocity"))
         api(project(":kraftlin-message-core"))
         api(project(":kraftlin-message-paper"))
+        api(project(":kraftlin-message-bungee"))
+        api(project(":kraftlin-message-velocity"))
     }
 }

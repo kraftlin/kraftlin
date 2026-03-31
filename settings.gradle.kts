@@ -10,4 +10,6 @@ include(
     "kraftlin-config-velocity",
     "kraftlin-message-core",
     "kraftlin-message-paper",
+    "kraftlin-message-bungee",
+    "kraftlin-message-velocity",
 )

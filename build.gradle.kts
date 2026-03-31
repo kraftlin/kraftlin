@@ -19,6 +19,8 @@ dependencies {
     dokka(project(":kraftlin-config-velocity"))
     dokka(project(":kraftlin-message-core"))
     dokka(project(":kraftlin-message-paper"))
+    dokka(project(":kraftlin-message-bungee"))
+    dokka(project(":kraftlin-message-velocity"))
 }
 
 allprojects {
@@ -90,6 +92,8 @@ subprojects {
                     "kraftlin-config-velocity" -> "Velocity-specific config implementation."
                     "kraftlin-message-core" -> "Kotlin DSL for building Adventure components."
                     "kraftlin-message-paper" -> "Paper-specific message helpers."
+                    "kraftlin-message-bungee" -> "BungeeCord-specific message helpers."
+                    "kraftlin-message-velocity" -> "Velocity-specific message helpers."
                     "kraftlin-bom" -> "Bill of Materials for Kraftlin libraries."
                     else -> "Kraftlin module: ${project.name}"
                 }
