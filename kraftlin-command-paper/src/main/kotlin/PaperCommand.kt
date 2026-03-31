@@ -6,13 +6,26 @@ import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
+/** Paper's Brigadier command source type. */
 public typealias PaperSource = CommandSourceStack
+/** [LiteralNode] specialized to Paper's [CommandSourceStack]. */
 public typealias PaperLiteralNode = LiteralNode<PaperSource>
+/** [ArgumentNode] specialized to Paper's [CommandSourceStack]. */
 public typealias PaperArgumentNode<T> = ArgumentNode<PaperSource, T>
+/** [KContext] specialized to Paper's [CommandSourceStack]. */
 public typealias PaperContext = KContext<PaperSource>
+/** [ExecuteScope] specialized to Paper's [CommandSourceStack]. */
 public typealias PaperExecuteScope = ExecuteScope<PaperSource>
 
 
+/**
+ * A built command ready for registration via [registerKraftlinCommands].
+ *
+ * @property node the root Brigadier command node
+ * @property description optional description shown in help output
+ * @property aliases alternative labels for the command
+ * @property overrideAliases whether aliases should override existing commands from vanilla or other plugins
+ */
 public data class KraftlinPaperCommand(
     public val node: LiteralCommandNode<PaperSource>,
     public val description: String?,
@@ -67,22 +80,26 @@ public fun kraftlinCommand(
     )
 }
 
+/** Execution handler that extracts the [CommandSender] before invoking [block]. */
 public fun PaperLiteralNode.executes(
     block: PaperExecuteScope.(CommandSender, PaperContext) -> Unit,
 ): Unit = executes { context ->
     this.block(context.sender, context)
 }
 
+/** Execution handler with custom result code that extracts the [CommandSender]. */
 public fun PaperLiteralNode.executesResult(
     block: PaperExecuteScope.(CommandSender, PaperContext) -> Int,
 ): Unit = executesResult { context ->
     this.block(context.sender, context)
 }
 
+/** Execution handler restricted to [Player] senders. Throws a command error if the sender is not a player. */
 public fun PaperLiteralNode.executesPlayer(
     block: PaperExecuteScope.(Player, PaperContext) -> Unit,
 ): Unit = executes { context -> this.block(context.requirePlayer(), context) }
 
+/** Execution handler with custom result code, restricted to [Player] senders. */
 public fun PaperLiteralNode.executesPlayerResult(
     block: PaperExecuteScope.(Player, PaperContext) -> Int,
 ): Unit = executesResult { context ->

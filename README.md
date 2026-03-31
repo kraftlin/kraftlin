@@ -33,24 +33,28 @@ Kraftlin is a collection of independent modules that can be used individually or
 
 ### Command
 
-| Module                   | Description                                                           |
-|--------------------------|-----------------------------------------------------------------------|
-| `kraftlin-command-core`  | Kotlin DSL over Mojang Brigadier (no Minecraft or Paper dependencies) |
-| `kraftlin-command-paper` | Paper integration: typed argument builders and context access         |
+| Module                      | Description                                                              |
+|-----------------------------|--------------------------------------------------------------------------|
+| `kraftlin-command-core`     | Kotlin DSL over Mojang Brigadier (no Minecraft or Paper dependencies)    |
+| `kraftlin-command-paper`    | Paper integration: typed argument builders and context access            |
+| `kraftlin-command-velocity` | Velocity integration: registration and choice arguments                  |
 
 ### Config
 
-| Module                  | Description                                       |
-|-------------------------|---------------------------------------------------|
-| `kraftlin-config-core`  | Type-safe Kotlin DSL for structured configuration |
-| `kraftlin-config-paper` | Paper-specific config loading helpers             |
+| Module                    | Description                                       |
+|---------------------------|---------------------------------------------------|
+| `kraftlin-config-core`    | Type-safe Kotlin DSL for structured configuration |
+| `kraftlin-config-paper`   | Paper-specific config loading helpers             |
+| `kraftlin-config-bungee`  | BungeeCord config loading helpers                 |
+| `kraftlin-config-velocity`| Velocity config loading helpers                   |
 
 ### Message
 
-| Module                   | Description                                  |
-|--------------------------|----------------------------------------------|
-| `kraftlin-message-core`  | Kotlin DSL for building Adventure components |
-| `kraftlin-message-paper` | Paper-specific message helpers               |
+| Module                      | Description                                         |
+|-----------------------------|-----------------------------------------------------|
+| `kraftlin-message-core`     | Kotlin DSL for building Adventure components        |
+| `kraftlin-message-bungee`   | BungeeCord message sending extensions               |
+| `kraftlin-message-velocity` | Convenience dependency (re-exports core)            |
 
 Each module is published independently and can be used on its own.
 
@@ -69,22 +73,25 @@ Each module is published independently and can be used on its own.
 - Java 21+
 - Kotlin 2+
 - Paper 1.21+ (for Paper modules)
+- BungeeCord (for BungeeCord modules)
+- Velocity 3.4+ (for Velocity modules)
 - Adventure (for message module)
 
 
 ## 📥 Installation
 
-Artifacts are published on Maven Central.
-
-Example (Gradle Kotlin DSL):
+Artifacts are published on Maven Central. Use the BOM for version-aligned dependencies:
 
 ```kotlin
 dependencies {
-    implementation("io.github.kraftlin:kraftlin-command-paper:${kraftlinVersion}")
+    implementation(platform("io.github.kraftlin:kraftlin-bom:${kraftlinVersion}"))
+    implementation("io.github.kraftlin:kraftlin-command-paper")
+    implementation("io.github.kraftlin:kraftlin-config-paper")
+    implementation("io.github.kraftlin:kraftlin-message-core")
 }
 ```
 
-Replace the artifact ID depending on the module you need.
+Replace the artifact IDs depending on the modules and platform you need.
 
 
 ## 🔢 Versioning & Stability
@@ -101,18 +108,10 @@ It is actively used in production on our own server across multiple plugins.
 
 ## 🚀 Usage
 
-Usage examples and guides are provided per module:
+Full documentation and guides:
 
-- `kraftlin-command-*` → see [kraftlin-command-paper/README.md](kraftlin-command-paper/README.md)
-- `kraftlin-config-*` → see [kraftlin-config-paper/README.md](kraftlin-config-paper/README.md)
-- `kraftlin-message-*` → see [kraftlin-message-paper/README.md](kraftlin-message-paper/README.md)
-
-Each module has its own README with examples and API details.
-
-Documentation and API reference:
-
-- Docs: https://kraftlin.github.io/kraftlin/
-- KDoc: https://kraftlin.github.io/kraftlin/kdoc/
+- **Docs**: [kraftlin.github.io/kraftlin](https://kraftlin.github.io/kraftlin/)
+- **KDoc**: [kraftlin.github.io/kraftlin/kdoc](https://kraftlin.github.io/kraftlin/kdoc/)
 
 
 ## 🧠 Philosophy

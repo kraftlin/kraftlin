@@ -74,6 +74,7 @@ public fun Component.toLegacyMessage(): String {
     return LegacyComponentSerializer.legacySection().serialize(this)
 }
 
+/** Deserializes a legacy '§'-formatted [legacy] string into a [TextComponent]. */
 public fun fromLegacyMessage(legacy: String): TextComponent {
     return LegacyComponentSerializer.legacySection().deserialize(legacy)
 }

@@ -88,19 +88,23 @@ public fun PaperLiteralNode.style(
 public fun PaperContext.style(name: String): Style = rawContext.getArgument<Style>(name, Style::class.java)
 
 
+/** Adds a [NamedTextColor] argument. @see [PaperContext.namedColor] */
 public fun PaperLiteralNode.namedColor(
     name: String,
     block: PaperArgumentNode<NamedTextColor>.() -> Unit,
 ): Unit = argument(name, ArgumentTypes.namedColor(), block)
 
+/** Returns the parsed [NamedTextColor]. @see [PaperLiteralNode.namedColor] */
 public fun PaperContext.namedColor(name: String): NamedTextColor =
     rawContext.getArgument<NamedTextColor>(name, NamedTextColor::class.java)
 
 
+/** Adds a hex [TextColor] argument. @see [PaperContext.hexColor] */
 public fun PaperLiteralNode.hexColor(
     name: String,
     block: PaperArgumentNode<TextColor>.() -> Unit,
 ): Unit = argument(name, ArgumentTypes.hexColor(), block)
 
+/** Returns the parsed hex [TextColor]. @see [PaperLiteralNode.hexColor] */
 public fun PaperContext.hexColor(name: String): TextColor =
     rawContext.getArgument<TextColor>(name, TextColor::class.java)

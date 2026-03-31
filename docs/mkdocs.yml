@@ -9,11 +9,16 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - content.tabs.link
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - Home: index.md
   - Config: config.md
   - Command: command.md
   - Message: message.md
-  - Platforms: platforms.md
   - KDoc: kdoc/index.html

@@ -4,8 +4,12 @@ The message module provides a Kotlin DSL for building Adventure components in a 
 
 ## Modules
 
-- **`kraftlin-message-core`**: Platform-agnostic DSL for building Adventure components
-- **`kraftlin-message-paper`**: Paper integration with CommandSender extensions
+| Module                      | Description                                     |
+|-----------------------------|-------------------------------------------------|
+| `kraftlin-message-core`     | DSL for building Adventure components + `Audience.message` extensions |
+| `kraftlin-message-paper`    | *(Deprecated)* Legacy `CommandSender.message` — use core's `Audience.message` instead |
+| `kraftlin-message-bungee`   | BungeeCord `CommandSender.message` extensions via `BungeeComponentSerializer` |
+| `kraftlin-message-velocity` | Convenience dependency — re-exports core (Velocity natively supports Adventure) |
 
 ## Getting Started
 
@@ -248,9 +252,38 @@ message {
 }
 ```
 
-## Paper Integration
+## Sending Messages
 
-### Sending Messages
+### Audience Extensions (all platforms)
+
+The core module provides `Audience.message` extensions that work on any platform
+whose sender implements Adventure's `Audience` interface (Paper, Velocity, and any other):
+
+```kotlin
+audience.message {
+    text("Hello ") { color(NamedTextColor.GREEN) }
+    text("World!")
+}
+
+audience.message("Simple text")
+audience.message("Colored text", NamedTextColor.BLUE)
+```
+
+### BungeeCord
+
+BungeeCord does not implement `Audience`, so `kraftlin-message-bungee` provides
+`CommandSender.message` extensions that serialize via `BungeeComponentSerializer`:
+
+```kotlin
+sender.message {
+    text("Hello from BungeeCord!") { color(NamedTextColor.GOLD) }
+}
+```
+
+### Paper (Legacy)
+
+The Paper module's `CommandSender.message` extensions are **deprecated**.
+Use `Audience.message` from the core module instead — Paper's `CommandSender` implements `Audience`.
 
 Extension functions on `CommandSender`:
 
@@ -346,10 +379,10 @@ message {
    }
    ```
 
-2. **Prefer Paper extensions** for sending messages:
+2. **Use `Audience.message`** for sending messages:
    ```kotlin
    player.message { /* ... */ }  // ✓ Clean and direct
-   player.sendMessage(message { /* ... */ }.toChatMessage())  // ✗ Verbose
+   player.sendMessage(message { /* ... */ })  // ✗ Verbose
    ```
 
 3. **Use hover messages** for additional context:

@@ -4,8 +4,12 @@ The config module provides a type-safe Kotlin DSL for structured configuration u
 
 ## Modules
 
-- **`kraftlin-config-core`**: Platform-agnostic config DSL with type-safe property delegation
-- **`kraftlin-config-paper`**: Paper integration with YAML wrappers and Bukkit type support
+| Module                    | Description                                        |
+|---------------------------|----------------------------------------------------|
+| `kraftlin-config-core`    | Platform-agnostic config DSL with property delegation |
+| `kraftlin-config-paper`   | Paper integration with Bukkit type support         |
+| `kraftlin-config-bungee`  | BungeeCord integration                             |
+| `kraftlin-config-velocity`| Velocity integration                               |
 
 ## Getting Started
 
@@ -216,6 +220,37 @@ url: jdbc:postgresql://localhost:5432/mydb
 user: myuser
 password: mypassword
 ```
+
+## Platform Setup
+
+Each platform provides a `wrapConfig` function to create the config wrapper:
+
+=== "Paper"
+
+    ```kotlin
+    class Config(plugin: Plugin) : AbstractConfig(wrapConfig(plugin)) {
+        val value: String by config("key", "default")
+    }
+    ```
+
+=== "BungeeCord"
+
+    ```kotlin
+    class Config(plugin: Plugin) : AbstractConfig(wrapConfig(plugin)) {
+        val value: String by config("key", "default")
+    }
+    ```
+
+=== "Velocity"
+
+    ```kotlin
+    class Config(dataDirectory: Path) : AbstractConfig(wrapConfig(dataDirectory)) {
+        val value: String by config("key", "default")
+    }
+    ```
+
+The `wrapConfig` overloads accept platform-specific types but all return the same `ConfigWrapper`, so
+everything else (property delegation, lifecycle, types) works identically across platforms.
 
 ## Why Kraftlin Config?
 

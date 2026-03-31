@@ -611,7 +611,9 @@ public abstract class AbstractConfig protected constructor(protected val configW
          */
         public fun save()
 
+        /** Returns the YAML comments above the given [path], or an empty list if none. */
         public fun getComments(path: String): List<String>
+        /** Sets the YAML comments above the given [path]. Applied on the next [save]. */
         public fun setComments(path: String, comments: List<String>)
     }
 }

@@ -5,13 +5,25 @@ import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
 import io.github.kraftlin.command.*
 
+/** Velocity's Brigadier command source type. */
 public typealias VelocitySource = CommandSource
+/** [LiteralNode] specialized to Velocity's [CommandSource]. */
 public typealias VelocityLiteralNode = LiteralNode<VelocitySource>
+/** [ArgumentNode] specialized to Velocity's [CommandSource]. */
 public typealias VelocityArgumentNode<T> = ArgumentNode<VelocitySource, T>
+/** [KContext] specialized to Velocity's [CommandSource]. */
 public typealias VelocityContext = KContext<VelocitySource>
+/** [ExecuteScope] specialized to Velocity's [CommandSource]. */
 public typealias VelocityExecuteScope = ExecuteScope<VelocitySource>
 
 
+/**
+ * A built command ready for registration via [registerKraftlinCommands].
+ *
+ * @property node the root Brigadier command node
+ * @property description optional description shown in help output
+ * @property aliases alternative labels for the command
+ */
 public data class KraftlinVelocityCommand(
     public val node: LiteralCommandNode<VelocitySource>,
     public val description: String?,
@@ -59,22 +71,26 @@ public fun kraftlinCommand(
     )
 }
 
+/** Execution handler that extracts the [CommandSource] before invoking [block]. */
 public fun VelocityLiteralNode.executes(
     block: VelocityExecuteScope.(CommandSource, VelocityContext) -> Unit,
 ): Unit = executes { context ->
     this.block(context.sender, context)
 }
 
+/** Execution handler with custom result code that extracts the [CommandSource]. */
 public fun VelocityLiteralNode.executesResult(
     block: VelocityExecuteScope.(CommandSource, VelocityContext) -> Int,
 ): Unit = executesResult { context ->
     this.block(context.sender, context)
 }
 
+/** Execution handler restricted to [Player] senders. Throws a command error if the sender is not a player. */
 public fun VelocityLiteralNode.executesPlayer(
     block: VelocityExecuteScope.(Player, VelocityContext) -> Unit,
 ): Unit = executes { context -> this.block(context.requirePlayer(), context) }
 
+/** Execution handler with custom result code, restricted to [Player] senders. */
 public fun VelocityLiteralNode.executesPlayerResult(
     block: VelocityExecuteScope.(Player, VelocityContext) -> Int,
 ): Unit = executesResult { context ->

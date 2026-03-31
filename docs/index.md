@@ -19,7 +19,7 @@ The goal is not to replace existing systems but to make them nicer to use from K
 
 ## Installation
 
-Artifacts are published on Maven Central:
+Artifacts are published on Maven Central. Use the BOM for version-aligned dependencies:
 
 ```kotlin
 repositories {
@@ -27,11 +27,14 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.kraftlin:kraftlin-command-paper:${kraftlinVersion}")
-    implementation("io.github.kraftlin:kraftlin-config-paper:${kraftlinVersion}")
-    implementation("io.github.kraftlin:kraftlin-message-paper:${kraftlinVersion}")
+    implementation(platform("io.github.kraftlin:kraftlin-bom:${kraftlinVersion}"))
+    implementation("io.github.kraftlin:kraftlin-command-paper")
+    implementation("io.github.kraftlin:kraftlin-config-paper")
+    implementation("io.github.kraftlin:kraftlin-message-core")
 }
 ```
+
+Replace the artifact IDs depending on the modules and platform you need.
 
 ## Modules
 
@@ -41,10 +44,11 @@ Kraftlin is a collection of independent modules that can be used individually or
 
 Build type-safe command trees with a Kotlin DSL over Mojang Brigadier.
 
-| Module                   | Description                                           |
-|--------------------------|-------------------------------------------------------|
-| `kraftlin-command-core`  | Brigadier DSL (no Minecraft or Paper dependencies)    |
-| `kraftlin-command-paper` | Paper integration: typed arguments and registration   |
+| Module                      | Description                                              |
+|-----------------------------|----------------------------------------------------------|
+| `kraftlin-command-core`     | Brigadier DSL (no Minecraft or Paper dependencies)       |
+| `kraftlin-command-paper`    | Paper integration: typed arguments and registration      |
+| `kraftlin-command-velocity` | Velocity integration: registration and choice arguments  |
 
 **Quick example:**
 
@@ -66,10 +70,12 @@ val command = kraftlinCommand("demo") {
 
 Type-safe configuration using Kotlin property delegation.
 
-| Module                  | Description                               |
-|-------------------------|-------------------------------------------|
-| `kraftlin-config-core`  | Platform-agnostic config DSL              |
-| `kraftlin-config-paper` | Paper-specific YAML helpers               |
+| Module                    | Description                               |
+|---------------------------|-------------------------------------------|
+| `kraftlin-config-core`    | Platform-agnostic config DSL              |
+| `kraftlin-config-paper`   | Paper-specific YAML helpers               |
+| `kraftlin-config-bungee`  | BungeeCord integration                    |
+| `kraftlin-config-velocity`| Velocity integration                      |
 
 **Quick example:**
 
@@ -91,10 +97,12 @@ logger.info("Interval: ${config.interval}")
 
 Build Adventure components using a declarative Kotlin DSL.
 
-| Module                   | Description                              |
-|--------------------------|------------------------------------------|
-| `kraftlin-message-core`  | Adventure component DSL                  |
-| `kraftlin-message-paper` | Paper-specific message sending helpers   |
+| Module                      | Description                                     |
+|-----------------------------|-------------------------------------------------|
+| `kraftlin-message-core`     | Adventure component DSL + `Audience.message` extensions |
+| `kraftlin-message-paper`    | *(Deprecated)* Use core's `Audience.message` instead |
+| `kraftlin-message-bungee`   | BungeeCord `CommandSender.message` extensions    |
+| `kraftlin-message-velocity` | Convenience dependency — re-exports core        |
 
 **Quick example:**
 
@@ -115,6 +123,8 @@ player.message {
 - Java 21+
 - Kotlin 2+
 - Paper 1.21+ (for Paper modules)
+- BungeeCord (for BungeeCord modules)
+- Velocity 3.4+ (for Velocity modules)
 - Adventure (for message module)
 
 ## Design Goals
@@ -127,9 +137,16 @@ player.message {
 
 ## Platform Support
 
-Kraftlin currently supports Paper through dedicated integration modules. The core modules are platform-agnostic and can be adapted to other platforms like Velocity.
+Kraftlin supports Paper, BungeeCord, and Velocity through dedicated integration modules:
 
-[Platform details →](platforms.md)
+|                | Paper | BungeeCord | Velocity |
+|----------------|:-----:|:----------:|:--------:|
+| **Command**    |   ✓   |            |    ✓     |
+| **Config**     |   ✓   |     ✓      |    ✓     |
+| **Message**    |   ✓   |     ✓      |    ✓     |
+
+The core modules are platform-agnostic. Platform modules provide wrappers for platform-specific
+types (sender, plugin, data directory) while the DSL and concepts remain identical.
 
 ## Reference
 

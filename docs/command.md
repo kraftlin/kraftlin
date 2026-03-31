@@ -4,8 +4,11 @@ The command module provides a Kotlin DSL over Mojang Brigadier for building type
 
 ## Modules
 
-- **`kraftlin-command-core`**: Platform-agnostic Brigadier DSL (no Minecraft dependencies)
-- **`kraftlin-command-paper`**: Paper integration with typed arguments and registration
+| Module                      | Description                                              |
+|-----------------------------|----------------------------------------------------------|
+| `kraftlin-command-core`     | Platform-agnostic Brigadier DSL (no Minecraft dependencies) |
+| `kraftlin-command-paper`    | Paper integration: typed arguments and registration      |
+| `kraftlin-command-velocity` | Velocity integration: registration and choice arguments  |
 
 ## Getting Started
 
@@ -205,6 +208,33 @@ enum<GameMode>("mode") {
     }
 }
 ```
+
+## Velocity
+
+The Velocity module provides the same DSL structure with Velocity's `CommandSource`:
+
+```kotlin
+val command = kraftlinCommand("demo", description = "Demo command") {
+    requiresPermission("demo.use")
+    string("name") {
+        executes { sender, context ->
+            sender.sendMessage(Component.text("Hello, ${context.string("name")}!"))
+        }
+    }
+}
+```
+
+Register in your plugin's `proxyInitialize`:
+
+```kotlin
+@Subscribe
+fun onInit(event: ProxyInitializeEvent) {
+    server.commandManager.registerKraftlinCommands(command)
+}
+```
+
+Velocity commands have access to core argument types (`string`, `integer`, `boolean`, etc.) plus
+`choice()` and `enum()`. Paper-specific arguments (entity selectors, positions, etc.) are not available.
 
 ## Why Kraftlin Commands?
 
