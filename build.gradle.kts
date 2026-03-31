@@ -13,6 +13,7 @@ plugins {
 dependencies {
     dokka(project(":kraftlin-command-core"))
     dokka(project(":kraftlin-command-paper"))
+    dokka(project(":kraftlin-command-velocity"))
     dokka(project(":kraftlin-config-core"))
     dokka(project(":kraftlin-config-paper"))
     dokka(project(":kraftlin-config-bungee"))
@@ -86,6 +87,7 @@ subprojects {
                 when (project.name) {
                     "kraftlin-command-core" -> "Kotlin DSL wrapper for Mojang Brigadier."
                     "kraftlin-command-paper" -> "Paper integration for Kraftlin commands."
+                    "kraftlin-command-velocity" -> "Velocity integration for Kraftlin commands."
                     "kraftlin-config-core" -> "Type-safe Kotlin delegates for structured configuration."
                     "kraftlin-config-paper" -> "Paper-specific config implementation."
                     "kraftlin-config-bungee" -> "BungeeCord-specific config implementation."
@@ -93,7 +95,7 @@ subprojects {
                     "kraftlin-message-core" -> "Kotlin DSL for building Adventure components."
                     "kraftlin-message-paper" -> "Paper-specific message helpers."
                     "kraftlin-message-bungee" -> "BungeeCord-specific message helpers."
-                    "kraftlin-message-velocity" -> "Velocity-specific message helpers."
+                    "kraftlin-message-velocity" -> "Velocity message helpers (pulls in kraftlin-message-core)."
                     "kraftlin-bom" -> "Bill of Materials for Kraftlin libraries."
                     else -> "Kraftlin module: ${project.name}"
                 }

@@ -135,3 +135,46 @@ public fun <S, T> ArgumentNode<S, T>.suggestsStatic(values: Iterable<String>) {
 }
 
 public fun <S, T> ArgumentNode<S, T>.suggestsStatic(vararg values: String): Unit = suggestsStatic(values.asList())
+
+/* -------------------------------------------------------------------------- */
+/* Platform adapter                                                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Abstraction over platform-specific command source handling.
+ *
+ * Each platform (Paper, Velocity, …) provides an implementation that bridges between
+ * Brigadier's raw source type [S] and the platform's sender/audience type [Sender].
+ * This allows command definitions to be written once and used across platforms.
+ *
+ * @param S the Brigadier command source type (e.g. `CommandSourceStack`, `CommandSource`)
+ * @param Sender the platform's sender type (e.g. `CommandSender`, `CommandSource`)
+ */
+public interface PlatformAdapter<S, Sender> {
+    public fun sender(source: S): Sender
+    public fun hasPermission(source: S, permission: String): Boolean
+}
+
+public fun <S, Sender> LiteralNode<S>.executes(
+    platform: PlatformAdapter<S, Sender>,
+    block: ExecuteScope<S>.(Sender, KContext<S>) -> Unit,
+): Unit = executes { context ->
+    this.block(platform.sender(context.source), context)
+}
+
+public fun <S, Sender> LiteralNode<S>.executesResult(
+    platform: PlatformAdapter<S, Sender>,
+    block: ExecuteScope<S>.(Sender, KContext<S>) -> Int,
+): Unit = executesResult { context ->
+    this.block(platform.sender(context.source), context)
+}
+
+public fun <S, Sender> LiteralNode<S>.requiresPermission(
+    platform: PlatformAdapter<S, Sender>,
+    permission: String,
+): Unit = requires { platform.hasPermission(it, permission) }
+
+public fun <S, Sender> LiteralNode<S>.requiresSender(
+    platform: PlatformAdapter<S, Sender>,
+    predicate: (Sender) -> Boolean,
+): Unit = requires { predicate(platform.sender(it)) }

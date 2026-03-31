@@ -6,6 +6,7 @@ dependencies {
     constraints {
         api(project(":kraftlin-command-core"))
         api(project(":kraftlin-command-paper"))
+        api(project(":kraftlin-command-velocity"))
         api(project(":kraftlin-config-core"))
         api(project(":kraftlin-config-paper"))
         api(project(":kraftlin-config-bungee"))

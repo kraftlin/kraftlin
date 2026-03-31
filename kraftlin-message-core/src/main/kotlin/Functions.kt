@@ -77,3 +77,4 @@ public fun Component.toLegacyMessage(): String {
 public fun fromLegacyMessage(legacy: String): TextComponent {
     return LegacyComponentSerializer.legacySection().deserialize(legacy)
 }
+
