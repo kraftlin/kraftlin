@@ -31,14 +31,19 @@ jobs:
           v=$(./gradlew -q currentVersion | awk '/Project version:/ {print $NF}')
           echo "version=$v" >> "$GITHUB_OUTPUT"
 
+      - name: Bundle JARs
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          find . -path '*/build/libs/*.jar' -exec cp {} /tmp/ \;
+          cd /tmp && zip kraftlin-${{ steps.version.outputs.version }}.zip *.jar
+
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
           generate_release_notes: true
-          files: |
-            **/build/libs/*.jar
+          files: /tmp/kraftlin-${{ steps.version.outputs.version }}.zip
 
       - name: Publish Snapshots
         if: github.ref == 'refs/heads/main' && endsWith(steps.version.outputs.version, '-SNAPSHOT')
