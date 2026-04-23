@@ -9,21 +9,22 @@ import io.github.kraftlin.command.paper.arguments.internal.stringChoice
 
 
 /**
- * Adds a string "choice" argument to this command.
+ * Adds a string argument that must match one of the provided [values].
  *
- * The argument only accepts one of the provided [values] and will suggest them for tab-completion.
+ * Values must not contain whitespace — each value is parsed as a single word.
+ * If you need values with spaces, use [string] (accepts quoted strings) or
+ * [greedyString] (consumes remaining input) and validate in the executor.
  *
- * Implementation detail:
- * This is implemented using Paper's `CustomArgumentType.Converted`, delegating to a native
- * `StringArgumentType.word()` on the client and converting/validating on the server.
+ * Tab-completion suggests [values] in the order given. Invalid input is
+ * rejected on the server at execution time and fed back to the client as a command parsing error.
  *
- * Consequences:
- * - Client-side syntax validation only knows about a generic string token, not the specific choices.
- * - Invalid values are rejected on the server when the command is executed.
- * - Suggestions are provided by the server in the order of [values].
+ * Implementation: wraps Paper's `CustomArgumentType.Converted` over
+ * Brigadier's `StringArgumentType.word()`. See
+ * [Custom arguments](https://docs.papermc.io/paper/dev/command-api/basics/custom-arguments/).
  *
- * Documentation: [Custom arguments](https://docs.papermc.io/paper/dev/command-api/basics/custom-arguments/)
- * @see PaperContext.choice
+ * @see PaperContext.choice for retrieving the value
+ * @see string for quoted strings with spaces
+ * @see greedyString for unconstrained trailing input
  */
 public fun PaperLiteralNode.choice(
     name: String,
