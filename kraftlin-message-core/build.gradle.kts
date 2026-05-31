@@ -1,10 +1,10 @@
 dependencies {
     api(libs.adventure.api)
-    api(libs.adventure.gson)
-    api(libs.adventure.legacy)
+    implementation(libs.adventure.legacy)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.jsonassert)
+    testImplementation(libs.adventure.gson)
     testImplementation(libs.mockk)
 }

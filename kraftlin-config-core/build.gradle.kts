@@ -1,5 +1,5 @@
 dependencies {
-    api(libs.snakeyaml.engine)
+    implementation(libs.snakeyaml.engine)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.junit.jupiter)
