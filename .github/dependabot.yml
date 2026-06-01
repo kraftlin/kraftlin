@@ -1,0 +1,40 @@
+version: 2
+updates:
+  # Gradle version catalog: libraries + build plugins (Kotlin, Dokka, vanniktech,
+  # axion-release) via their version refs, plus test/runtime libs.
+  # Minecraft/Paper-coupled deps are intentionally ignored — their versions must
+  # track the target Paper/MC platform (which provides them at runtime), so they
+  # are bumped deliberately as part of a "support newer Minecraft" change, never
+  # automatically. NOTE: Dependabot's `gradle` ecosystem does NOT reliably bump the
+  # Gradle wrapper itself (gradle-wrapper.properties) — that's tracked separately.
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build"
+    groups:
+      gradle-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    ignore:
+      - dependency-name: "io.papermc.paper:*"     # paper-api
+      - dependency-name: "com.velocitypowered:*"  # velocity-api
+      - dependency-name: "net.md-5:*"             # bungeecord-api
+      - dependency-name: "net.kyori:adventure*"   # adventure: api, serializers, platform
+      - dependency-name: "com.mojang:brigadier"   # brigadier (ships with the platform)
+
+  # GitHub Actions in workflows AND the local gradle-setup composite action
+  # (Dependabot does not scan .github/actions/ unless the folder is listed).
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/gradle-setup"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]
