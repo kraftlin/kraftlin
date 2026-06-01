@@ -1,0 +1,26 @@
+name: Update Gradle Wrapper
+
+# The one update Dependabot's `gradle` ecosystem does NOT cover: the Gradle
+# wrapper itself (gradle-wrapper.properties / .jar). Opens a PR when a newer
+# Gradle ships. Wrapper *checksum validation* is already done on every build by
+# gradle/actions/setup-gradle@v6 (validate-wrappers defaults to true), so no
+# separate wrapper-validation step is needed here.
+on:
+  schedule:
+    - cron: "0 6 * * 1" # weekly, Monday 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle-update/update-gradle-wrapper-action@v2
