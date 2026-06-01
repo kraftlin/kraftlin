@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.3.0"
-dokka = "2.1.0"
+kotlin = "2.3.21"
+dokka = "2.2.0"
 mavenPublish = "0.36.0"
 axionRelease = "1.21.1"
 
@@ -12,8 +12,8 @@ velocityApi = "3.4.0"
 adventurePlatform = "4.4.1"
 snakeyamlEngine = "3.0.1"
 junitJupiter = "5.14.2"
-mockk = "1.14.7"
-slf4j = "2.0.17"
+mockk = "1.14.11"
+slf4j = "2.0.18"
 jsonassert = "1.5.3"
 
 [plugins]
