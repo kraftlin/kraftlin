@@ -9,7 +9,7 @@ runs:
         distribution: temurin
         java-version: 21
 
-    - uses: gradle/actions/setup-gradle@v6.2.0
+    - uses: gradle/actions/setup-gradle@v6.3.0
       with:
         # Use the open-source (MIT) cache provider built on @actions/cache,
         # not the proprietary "Enhanced Caching" default introduced in v6.
