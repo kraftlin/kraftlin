@@ -2,7 +2,7 @@
 kotlin = "2.4.20"
 dokka = "2.2.0"
 mavenPublish = "0.37.0"
-axionRelease = "1.21.3"
+axionRelease = "1.21.4"
 
 brigadier = "1.3.10"
 adventure = "4.25.0"
