@@ -209,7 +209,7 @@ We highly encourage this separation:
 3. Simplifies DevOps automation
 
 Features:
-- Auto-migrates legacy `database.properties` files
+- Auto-migrates legacy `database.properties` files (the old file is deleted afterwards)
 - Creates example config if none exists
 - Includes helpful header comments
 
