@@ -74,7 +74,10 @@ public class ArgumentNode<S, T> internal constructor(
 /* Tree building                                                              */
 /* -------------------------------------------------------------------------- */
 
-/** Adds a literal sub-command named [name] with optional [aliases] that redirect to it. */
+/**
+ * Adds a literal sub-command named [name] with optional [aliases]. Each alias is a full copy of the sub-command: the
+ * same requirement, command and children, so it works with or without further arguments.
+ */
 public fun <S> LiteralNode<S>.literal(
     name: String,
     vararg aliases: String,
@@ -88,9 +91,12 @@ public fun <S> LiteralNode<S>.literal(
     val primaryNode = primaryBuilder.build()
     builder.then(primaryNode)
 
-    // Add alias literals as siblings that redirect to the primary node
+    // Brigadier only follows a redirect when more input follows, so a redirecting alias of a leaf would have no command
     for (alias in aliases) {
-        builder.then(LiteralArgumentBuilder.literal<S>(alias).redirect(primaryNode))
+        val aliasBuilder = LiteralArgumentBuilder.literal<S>(alias).requires(primaryNode.requirement)
+        primaryNode.command?.let { aliasBuilder.executes(it) }
+        primaryNode.children.forEach { aliasBuilder.then(it) }
+        builder.then(aliasBuilder.build())
     }
 }
 
