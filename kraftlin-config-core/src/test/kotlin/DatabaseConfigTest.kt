@@ -58,6 +58,23 @@ internal class DatabaseConfigTest {
 
         assertEquals(expected, actual)
         assertTrue(Files.exists(migrated))
+        assertFalse(Files.exists(legacyConfig), "Legacy file should be removed after migration")
+    }
+
+    @Test
+    fun `keep legacy properties file when yaml already exists`() {
+        val legacyConfig = testDirectory.resolve("database.properties")
+        Files.writeString(legacyConfig, "url=jdbc:mysql://legacy.test:3306/database\nuser=legacy\npassword=legacy\n")
+        Files.writeString(
+            testDirectory.resolve("database.yml"),
+            "url: 'jdbc:mysql://database.test:3306/database'\nuser: 'testuser'\npassword: 'testpassword'\n"
+        )
+
+        val expected = SqlConfiguration("jdbc:mysql://database.test:3306/database", "testuser", "testpassword")
+        val actual = loadSqlConfiguration(testDirectory)
+
+        assertEquals(expected, actual)
+        assertTrue(Files.exists(legacyConfig), "Legacy file must not be touched when it was not migrated")
     }
 
     @Test

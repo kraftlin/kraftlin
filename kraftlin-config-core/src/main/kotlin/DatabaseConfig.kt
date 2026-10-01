@@ -26,7 +26,8 @@ public data class SqlConfiguration(val url: String, val user: String, val passwo
  * Loads a [SqlConfiguration] from file, optionally storing a default example configuration if none exists.
  *
  * The configuration file name is `database.yml` in the directory [dataFolder]. The file is stored and read in
- * `UTF-8` format. Legacy `database.properties` files are migrated to `database.yml` when possible.
+ * `UTF-8` format. A legacy `database.properties` file is migrated to `database.yml` if the latter does not exist yet,
+ * and deleted after a successful migration.
  *
  * If [saveDefault] is `true`, this method creates a default configuration with example properties if none exists. It
  * also creates any parent directories required to store it.
@@ -41,6 +42,7 @@ public fun loadSqlConfiguration(dataFolder: Path, saveDefault: Boolean = true): 
     if (!Files.exists(configFile) && Files.exists(legacyConfigFile)) {
         val legacyConfig = loadPropertiesConfiguration(legacyConfigFile)
         writeYamlConfiguration(dataFolder, configFile, legacyConfig)
+        deleteLegacyConfiguration(legacyConfigFile, configFile)
     }
 
     if (saveDefault && !Files.exists(configFile)) {
@@ -96,6 +98,19 @@ private fun loadPropertiesConfiguration(configFile: Path): SqlConfiguration {
         user = databaseConfig.getProperty("user"),
         password = databaseConfig.getProperty("password")
     )
+}
+
+private fun deleteLegacyConfiguration(legacyConfigFile: Path, configFile: Path) {
+    try {
+        Files.delete(legacyConfigFile)
+    } catch (e: IOException) {
+        throw ConfigException(
+            legacyConfigFile,
+            "Migrated database configuration to '$configFile', but could not delete '$legacyConfigFile'.\n" +
+                "The file is no longer used and still contains the database credentials. Please delete it manually.",
+            e
+        )
+    }
 }
 
 private fun writeYamlConfiguration(dataFolder: Path, configFile: Path, config: SqlConfiguration) {
