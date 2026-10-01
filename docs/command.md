@@ -10,6 +10,9 @@ The command module provides a Kotlin DSL over Mojang Brigadier for building type
 | `kraftlin-command-paper`    | Paper integration: typed arguments and registration      |
 | `kraftlin-command-velocity` | Velocity integration: registration and choice arguments  |
 
+Brigadier is not pulled in transitively: Paper and Velocity both ship their own copy, and the library compiles against
+whichever one the platform provides. When using `kraftlin-command-core` on its own, add `com.mojang:brigadier` yourself.
+
 ## Getting Started
 
 ```kotlin
