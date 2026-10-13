@@ -1,6 +1,7 @@
 package io.github.kraftlin.config
 
 import java.util.*
+import java.util.logging.Logger
 import kotlin.reflect.KProperty
 
 /**
@@ -615,5 +616,13 @@ public abstract class AbstractConfig protected constructor(protected val configW
         public fun getComments(path: String): List<String>
         /** Sets the YAML comments above the given [path]. Applied on the next [save]. */
         public fun setComments(path: String, comments: List<String>)
+
+        /**
+         * Reports a problem with a configuration value, e.g. a list element that was skipped because it is invalid.
+         * Defaults to the `io.github.kraftlin.config` logger; wrappers created by `wrapConfig` use their own logger.
+         */
+        public fun warn(message: String) {
+            Logger.getLogger("io.github.kraftlin.config").warning(message)
+        }
     }
 }

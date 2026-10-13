@@ -117,7 +117,8 @@ class BukkitConfig(plugin: Plugin) : AbstractBukkitConfig(wrapConfig(plugin)) {
     // Materials and tags
     val materials: Set<Material> by config(
         "blocks",
-        listOf(Material.STONE, Tag.SHULKER_BOXES)
+        listOf(Material.STONE, Tag.SHULKER_BOXES),
+        "Blocks that may be broken"
     )
 }
 ```
@@ -126,6 +127,9 @@ Material sets support:
 - Individual materials: `STONE`, `DIAMOND_ORE`
 - Material tags: `#shulker_boxes`, `#wool`
 - Both with or without `minecraft:` prefix
+- Comments, like every other delegate
+- Empty lists (`blocks: []` reads as an empty set)
+- Unknown materials or tags are skipped with a warning in the config's logger
 - Returns `EnumSet<Material>` for performance
 
 ## Advanced Features

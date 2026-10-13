@@ -71,6 +71,10 @@ private class YamlConfigWrapper(
     private val defaults: MutableMap<String, Any?> = linkedMapOf()
     private val comments: MutableMap<String, List<String>> = linkedMapOf()
 
+    override fun warn(message: String) {
+        logger.warning(message)
+    }
+
     init {
         try {
             val result = parseFile()

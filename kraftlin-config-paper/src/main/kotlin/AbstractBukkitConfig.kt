@@ -17,15 +17,30 @@ public abstract class AbstractBukkitConfig(configWrapper: ConfigWrapper) : Abstr
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry. Only [Material] and [Tag] instances allowed.
+     * @param comments Comment lines written above the entry
      */
     @JvmName("configSetMaterial")
-    protected fun config(path: String, default: Collection<Keyed>): ConfigDelegate<Set<Material>> {
+    protected fun config(path: String, default: Collection<Keyed>, vararg comments: String): ConfigDelegate<Set<Material>> {
         configWrapper.addDefault(path, serializeMaterialAndTags(default))
         return ConfigDelegate(
             path,
-            { pathInner -> EnumSet.copyOf(configWrapper.getStringList(pathInner).flatMap(::matchMaterialOrTag)) },
+            ::readMaterials,
             { pathInner, value -> configWrapper.set(pathInner, serializeMaterialAndTags(value)) },
+            comments.toList()
         )
+    }
+
+    private fun readMaterials(path: String): Set<Material> {
+        val materials = EnumSet.noneOf(Material::class.java)
+        for (element in configWrapper.getStringList(path)) {
+            val matched = matchMaterialOrTag(element)
+            if (matched == null) {
+                configWrapper.warn("Config list element at '$path' is not a known material or tag ('$element'), skipping")
+            } else {
+                materials += matched
+            }
+        }
+        return materials
     }
 }
 
@@ -35,12 +50,12 @@ private fun serializeMaterialAndTags(input: Collection<Keyed>): List<String> {
     return serialized.sorted()
 }
 
-private fun matchMaterialOrTag(input: String): Collection<Material> {
+/** The materials named by [input], or null if it is neither a known material nor a known tag. */
+private fun matchMaterialOrTag(input: String): Collection<Material>? {
     return if (input.trim().startsWith('#')) {
-        matchMaterialTag(input)?.values ?: emptySet()
+        matchMaterialTag(input)?.values
     } else {
-        val material = Material.matchMaterial(input)
-        if (material != null) setOf(material) else emptySet()
+        Material.matchMaterial(input)?.let(::setOf)
     }
 }
 
