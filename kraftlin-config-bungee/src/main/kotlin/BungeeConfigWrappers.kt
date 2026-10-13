@@ -1,6 +1,7 @@
 package io.github.kraftlin.config.bungee
 
 import io.github.kraftlin.config.AbstractConfig
+import io.github.kraftlin.config.ConfigException
 import io.github.kraftlin.config.wrapConfig as coreWrapConfig
 import net.md_5.bungee.api.plugin.Plugin
 import java.nio.file.Path
@@ -11,7 +12,9 @@ import java.util.logging.Logger
  * This is the recommended approach when using a single configuration file only.
  *
  * @param plugin The plugin instance to which the config belongs.
- * @param logger Logger used for type coercion warnings.
+ * @param logger Logger for warnings about invalid configuration values.
+ * @throws ConfigException if the file cannot be read (not UTF-8, no permission), contains invalid YAML or an alias
+ *     that includes itself
  */
 public fun wrapConfig(
     plugin: Plugin,
@@ -21,6 +24,9 @@ public fun wrapConfig(
 
 /**
  * Wraps an arbitrary `YAML` file for use in [AbstractConfig]. This way, a plugin can support multiple configurations.
+ *
+ * @throws ConfigException if the file cannot be read (not UTF-8, no permission), contains invalid YAML or an alias
+ *     that includes itself
  */
 @Deprecated(
     "Use io.github.kraftlin.config.wrapConfig(Path) instead.",

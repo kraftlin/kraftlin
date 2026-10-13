@@ -10,3 +10,4 @@ and [io.github.kraftlin.config.paper.loadSqlConfiguration] for database configur
 - [io.github.kraftlin.config.paper.wrapConfig]: Wraps a Paper plugin's data folder config.
 - [io.github.kraftlin.config.paper.loadSqlConfiguration]: Loads database settings from `database.yml`.
 - [io.github.kraftlin.config.paper.AbstractBukkitConfig]: Extends config with Paper-specific types like Material sets.
+- [io.github.kraftlin.config.paper.MaterialSet]: Set of materials read from a config list that keeps tags as tags.
