@@ -1,22 +1,24 @@
 package io.github.kraftlin.config
 
 import java.util.*
-import java.util.logging.Logger
+import kotlin.enums.enumEntries
 import kotlin.reflect.KProperty
 
 /**
  * Base class for any plugin configuration to extend. It provides the [config] methods to create property delegates.
  * Example usage:
  * ```kotlin
- *     class Configuration(plugin: Plugin): AbstractConfig(wrapConfig(plugin)) {
- *         val value1: String by config("path1", default = "default value")
- *         val value2: Int by config("path2.subpath2", default = 11)
- *         val value3: List<Material> by config("path3", default = listOf(DIRT, GRASS, STONE)
- *         val value4: CustomObject by config("path4", default = CustomObject("object"),
- *                                            serialize = CustomObject::toString(),
- *                                            deserialize = { CustomObject(it.toLowerCase()) }
- *                                     )
- *     }
+ * class Configuration(plugin: Plugin) : AbstractConfig(wrapConfig(plugin)) {
+ *     val value1: String by config("path1", default = "default value")
+ *     val value2: Int by config("path2.subpath2", default = 11)
+ *     val value3: List<Material> by config("path3", default = listOf(Material.DIRT, Material.STONE))
+ *     val value4: CustomObject by config(
+ *         "path4",
+ *         default = CustomObject("object"),
+ *         serialize = CustomObject::toString,
+ *         deserialize = { CustomObject(it.lowercase()) }
+ *     )
+ * }
  * ```
  * It also provides methods to save defaults [saveDefaults] and reload config values [reloadConfig]
  */
@@ -73,6 +75,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -93,6 +96,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -113,6 +117,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -133,6 +138,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -153,6 +159,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -169,23 +176,29 @@ public abstract class AbstractConfig protected constructor(protected val configW
     }
 
     /**
-     * Config delegate for [Enum] values. The value is stored and retrieved by its lower cased [Enum.name].
+     * Config delegate for [Enum] values. The value is stored by its lower cased [Enum.name] and matched
+     * case-insensitively, ignoring surrounding whitespace and treating '-' as '_'. An unknown name is reported via
+     * [ConfigWrapper.warn], listing the valid values (or naming the enum type if it has many), and [default] is used
+     * instead.
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected inline fun <reified T : Enum<T>> config(
         path: String,
         default: T,
         vararg comments: String
     ): ConfigDelegate<T> =
-        config(path, default, { it.name.lowercase() }, { enumValueOf(it.uppercase().replace('-', '_')) }, *comments)
+        config(path, default, { it.name.lowercase() }, { parseEnum(it, enumEntries<T>()) }, *comments)
 
     /**
      * Config delegate for [UUID] values. The UUID is stored and retrieved by its string representation [UUID.toString].
+     * A value that [UUID.fromString] rejects is reported via [ConfigWrapper.warn] and [default] is used instead.
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun config(
         path: String,
@@ -196,12 +209,14 @@ public abstract class AbstractConfig protected constructor(protected val configW
 
     /**
      * Config delegate for arbitrary types. They are stored and retrieved by the provided [serialize] and [deserialize]
-     * functions respectively.
+     * functions respectively. If [deserialize] throws for the stored value, a warning is reported via
+     * [ConfigWrapper.warn] and [default] is used instead.
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      * @param serialize A function to serialize the custom type to a string
      * @param deserialize A function to deserialize a custom type from string
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     protected fun <T> config(
         path: String,
@@ -213,7 +228,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
         configWrapper.addDefault(path, serialize(default))
         return ConfigDelegate(
             path,
-            { pathInner -> deserialize(configWrapper.getString(pathInner)) },
+            { pathInner -> readValue(pathInner, default, deserialize) },
             { pathInner, value -> configWrapper.set(pathInner, serialize(value)) },
             comments.toList()
         )
@@ -224,6 +239,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListBoolean")
     protected fun config(
@@ -245,6 +261,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListInt")
     protected fun config(
@@ -266,6 +283,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListLong")
     protected fun config(
@@ -287,6 +305,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListDouble")
     protected fun config(
@@ -308,6 +327,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListString")
     protected fun config(
@@ -325,10 +345,13 @@ public abstract class AbstractConfig protected constructor(protected val configW
     }
 
     /**
-     * Config delegate for [List] of [Enum] values. The value is stored and retrieved by its lower cased [Enum.name].
+     * Config delegate for [List] of [Enum] values. Each value is stored by its lower cased [Enum.name] and matched
+     * case-insensitively, ignoring surrounding whitespace and treating '-' as '_'. Unknown names are skipped with a
+     * warning reported via [ConfigWrapper.warn], listing the valid values (or naming the enum type if it has many).
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListEnum")
     protected inline fun <reified T : Enum<T>> config(
@@ -336,13 +359,15 @@ public abstract class AbstractConfig protected constructor(protected val configW
         default: List<T>,
         vararg comments: String
     ): ConfigDelegate<List<T>> =
-        config<T>(path, default, { it.name.lowercase() }, { enumValueOf(it.uppercase().replace('-', '_')) }, *comments)
+        config<T>(path, default, { it.name.lowercase() }, { parseEnum(it, enumEntries<T>()) }, *comments)
 
     /**
      * Config delegate for [List] of [UUID] values. The UUID is stored and retrieved by its string representation [UUID.toString].
+     * Values that [UUID.fromString] rejects are skipped with a warning reported via [ConfigWrapper.warn].
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListUuid")
     protected fun config(
@@ -354,12 +379,14 @@ public abstract class AbstractConfig protected constructor(protected val configW
 
     /**
      * Config delegate for [List] of arbitrary values. They are stored as string lists and retrieved by the provided
-     * [serialize] and [deserialize] functions respectively.
+     * [serialize] and [deserialize] functions respectively. Elements for which [deserialize] throws are skipped with a
+     * warning reported via [ConfigWrapper.warn].
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      * @param serialize A function to serialize the custom type to a string
      * @param deserialize A function to deserialize a custom type from string
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configListT")
     // No inline because it will cause issues with configWrapper access scope
@@ -373,7 +400,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
         configWrapper.addDefault(path, default.map(serialize))
         return ConfigDelegate(
             path,
-            { configWrapper.getStringList(it).map(deserialize) },
+            { readList(it, deserialize) },
             { pathInner, value -> configWrapper.set(pathInner, value.map(serialize)) },
             comments.toList()
         )
@@ -384,6 +411,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configMapString")
     protected fun config(
@@ -395,12 +423,14 @@ public abstract class AbstractConfig protected constructor(protected val configW
 
     /**
      * Config delegate for [Map] of [String] keys with arbitrary values. They are stored as [String] values and
-     * retrieved by the provided [serialize] and [deserialize] functions respectively.
+     * retrieved by the provided [serialize] and [deserialize] functions respectively. Entries for which [deserialize]
+     * throws are skipped with a warning reported via [ConfigWrapper.warn].
      *
      * @param path A dot separated path for the config value
      * @param default The default value for this config entry
      * @param serialize A function to serialize the custom type to a string
      * @param deserialize A function to deserialize a custom type from string
+     * @param comments Comment lines written above the entry (applied by saveDefaults if the entry has none)
      */
     @JvmName("configMapT")
     protected fun <T> config(
@@ -413,11 +443,51 @@ public abstract class AbstractConfig protected constructor(protected val configW
         configWrapper.addDefault(path, default.mapValues { (_, v) -> serialize(v) })
         return ConfigDelegate(
             path,
-            { configWrapper.getMap(it).mapValues { (_, v) -> deserialize(v.toString()) } },
+            { readMap(it, deserialize) },
             { pathInner, value -> configWrapper.set(pathInner, value.mapValues { (_, v) -> serialize(v) }) },
             comments.toList()
         )
     }
+
+    private fun <T> readValue(path: String, default: T, deserialize: (String) -> T): T {
+        val raw = configWrapper.getString(path)
+        return try {
+            deserialize(raw)
+        } catch (e: Exception) {
+            configWrapper.warn("Config value at '$path' could not be read ('$raw': ${e.reason}), using default")
+            default
+        }
+    }
+
+    private fun <T> readList(path: String, deserialize: (String) -> T): List<T> {
+        val result = mutableListOf<T>()
+        for (element in configWrapper.getStringList(path)) {
+            try {
+                result.add(deserialize(element))
+            } catch (e: Exception) {
+                configWrapper.warn(
+                    "Config list element at '$path' could not be read ('$element': ${e.reason}), skipping"
+                )
+            }
+        }
+        return result
+    }
+
+    private fun <T> readMap(path: String, deserialize: (String) -> T): Map<String, T> {
+        val result = mutableMapOf<String, T>()
+        for ((key, value) in configWrapper.getMap(path)) {
+            val raw = value.toString()
+            try {
+                result[key] = deserialize(raw)
+            } catch (e: Exception) {
+                configWrapper.warn("Config value at '$path.$key' could not be read ('$raw': ${e.reason}), skipping")
+            }
+        }
+        return result
+    }
+
+    private val Exception.reason: String
+        get() = message?.takeIf { it.isNotBlank() } ?: javaClass.name
 
     /**
      * A property delegate for storage in a backing [ConfigWrapper]. See [AbstractConfig] for usage.
@@ -525,7 +595,8 @@ public abstract class AbstractConfig protected constructor(protected val configW
 
         /**
          * Gets the specified [String] configuration value. If the value is not set or not a valid string,
-         * the default value provided by [addDefault] is returned.
+         * the default value provided by [addDefault] is returned. Values loaded from the file are returned as typed
+         * there (`1.10` stays `1.10`, `007` stays `007`).
          *
          * @param path The dot separated configuration value path
          */
@@ -534,6 +605,8 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Gets the specified [List] of [Boolean] configuration value. If the value is not set or not a valid boolean
          * list, the default value provided by [addDefault] is returned.
+         * A key present without a value reads as an empty list. Elements that cannot be converted are skipped with
+         * a warning.
          *
          * @param path The dot separated configuration value path
          */
@@ -542,6 +615,8 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Gets the specified [List] of [Int] configuration value. If the value is not set or not a valid integer
          * list, the default value provided by [addDefault] is returned.
+         * A key present without a value reads as an empty list. Elements that cannot be converted are skipped with
+         * a warning.
          *
          * @param path The dot separated configuration value path
          */
@@ -550,6 +625,8 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Gets the specified [List] of [Long] configuration value. If the value is not set or not a valid long
          * list, the default value provided by [addDefault] is returned.
+         * A key present without a value reads as an empty list. Elements that cannot be converted are skipped with
+         * a warning.
          *
          * @param path The dot separated configuration value path
          */
@@ -558,6 +635,8 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Gets the specified [List] of [Double] configuration value. If the value is not set or not a valid double
          * list, the default value provided by [addDefault] is returned.
+         * A key present without a value reads as an empty list. Elements that cannot be converted are skipped with
+         * a warning.
          *
          * @param path The dot separated configuration value path
          */
@@ -566,14 +645,19 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Gets the specified [List] of [String] configuration value. If the value is not set or not a valid string
          * list, the default value provided by [addDefault] is returned.
+         * A key present without a value reads as an empty list. Elements that cannot be converted are skipped with
+         * a warning. Elements loaded from the file are returned as typed there (`1.10` stays `1.10`).
          *
          * @param path The dot separated configuration value path
          */
         public fun getStringList(path: String): List<String>
 
         /**
-         * Gets the specified flat [Map] of [Any] indexed by [String] configuration value. If the value is not set
-         * or not a valid Map, the default value provided by [addDefault] is returned.
+         * Gets the specified flat [Map] indexed by [String] configuration value. If the value is not set
+         * or not a valid Map, the default value provided by [addDefault] is returned. A key present without a value
+         * reads as an empty map. Entries without a value, lists and nested sections are skipped with a warning.
+         * Values are returned as [String], whether loaded from the file, set or provided by [addDefault]: values
+         * loaded from the file as typed there (`1.10` stays `1.10`), other values converted with [toString].
          *
          * @param path The dot separated configuration value path
          */
@@ -598,6 +682,7 @@ public abstract class AbstractConfig protected constructor(protected val configW
         /**
          * Stores the default values provided by [addDefault] for any path that has no user provided value.
          * If the underlying config representation does not exist, it is created and initiated with the default values.
+         * A list or map key that is present without a value is written as an empty list or map instead of the default.
          *
          * @throws ConfigException if the configuration file or its parent directories cannot be created or written.
          */
@@ -612,9 +697,16 @@ public abstract class AbstractConfig protected constructor(protected val configW
          */
         public fun save()
 
-        /** Returns the YAML comments above the given [path], or an empty list if none. */
+        /**
+         * Returns the comment lines of the key at [path] without the leading `# `, or an empty list if none.
+         * The file header is not part of the first key's comments.
+         */
         public fun getComments(path: String): List<String>
-        /** Sets the YAML comments above the given [path]. Applied on the next [save]. */
+
+        /**
+         * Replaces the comment lines of the key at [path]. Entries containing line breaks are split into several
+         * lines. Applied on the next [save].
+         */
         public fun setComments(path: String, comments: List<String>)
 
         /**
@@ -622,7 +714,26 @@ public abstract class AbstractConfig protected constructor(protected val configW
          * Defaults to the `io.github.kraftlin.config` logger; wrappers created by `wrapConfig` use their own logger.
          */
         public fun warn(message: String) {
-            Logger.getLogger("io.github.kraftlin.config").warning(message)
+            defaultLogger.warning(message)
         }
     }
+}
+
+private const val MAX_LISTED_ENUM_NAMES = 20
+
+/**
+ * Finds the entry whose name matches [value] case-insensitively, ignoring surrounding whitespace and treating '-' as
+ * '_'. Used by the inline enum delegates of [AbstractConfig].
+ *
+ * @throws IllegalArgumentException if no entry matches, listing the valid lower cased names unless there are more than
+ * [MAX_LISTED_ENUM_NAMES]
+ */
+@PublishedApi
+internal fun <T : Enum<T>> parseEnum(value: String, entries: List<T>): T {
+    val name = value.trim().replace('-', '_')
+    return entries.firstOrNull { it.name.replace('-', '_').equals(name, ignoreCase = true) }
+        ?: throw IllegalArgumentException(
+            if (entries.size <= MAX_LISTED_ENUM_NAMES) "expected one of ${entries.joinToString { it.name.lowercase() }}"
+            else "expected a valid ${entries.first().declaringJavaClass.simpleName} name"
+        )
 }

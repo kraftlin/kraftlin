@@ -1,6 +1,7 @@
 package io.github.kraftlin.config.velocity
 
 import io.github.kraftlin.config.AbstractConfig
+import io.github.kraftlin.config.ConfigException
 import io.github.kraftlin.config.wrapConfig as coreWrapConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,7 +17,9 @@ import java.util.logging.LogRecord
  * Pass the `@DataDirectory Path` injected into your plugin constructor.
  *
  * @param dataDirectory The plugin's data directory (injected via `@DataDirectory`).
- * @param logger SLF4J logger used for type coercion warnings.
+ * @param logger SLF4J logger for warnings about invalid configuration values.
+ * @throws ConfigException if the file cannot be read (not UTF-8, no permission), contains invalid YAML or an alias
+ *     that includes itself
  */
 public fun wrapPluginConfig(
     dataDirectory: Path,
